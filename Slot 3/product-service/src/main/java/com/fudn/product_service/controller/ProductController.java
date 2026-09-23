@@ -51,7 +51,11 @@ public class ProductController {
     //          @PathVariable String id,
     //          @RequestBody ProductRequest productRequest) { ... }
     // ==========================================================
-    // TODO: viết endpoint update tại đây
+    @PutMapping("/{id}")
+    public ProductResponse updateProduct(@PathVariable String id,
+                                         @RequestBody ProductRequest productRequest) {
+        return productService.updateProduct(id, productRequest);
+    }
 
 
     // ==========================================================
@@ -70,5 +74,9 @@ public class ProductController {
     //   @ResponseStatus(HttpStatus.NO_CONTENT)
     //   public void deleteProduct(@PathVariable String id) { ... }
     // ==========================================================
-    // TODO: viết endpoint delete tại đây
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable String id) {
+        productService.deleteProduct(id);
+    }
 }
