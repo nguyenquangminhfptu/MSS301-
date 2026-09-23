@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Cách chạy:
  *   ./mvnw -Dtest=ProductCrudIntegrationTests test
  *
- * Khi cả 4 test ở đây PASS, có khả năng cao bộ test grading cũng pass.
+ * Khi cả 6 test ở đây PASS, có khả năng cao bộ test grading cũng pass.
  * Nhưng có thể có edge case mà file này không cover — đừng coi đây là
  * "đáp án đầy đủ", hãy đọc kỹ README để hiểu full yêu cầu.
  */
@@ -70,6 +71,26 @@ class ProductCrudIntegrationTests {
                 .description("Apple laptop")
                 .price(new BigDecimal("1999.00"))
                 .build());
+    }
+
+    @Test
+    void getAllProducts_shouldReturnPersistedProducts() throws Exception {
+        Product existing = givenAnExistingProduct();
+
+        mockMvc.perform(get("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(existing.getId()))
+                .andExpect(jsonPath("$[0].name").value(existing.getName()))
+                .andExpect(jsonPath("$[0].description").value(existing.getDescription()))
+                .andExpect(jsonPath("$[0].price").value(1999.00));
+    }
+
+    @Test
+    void getAllProducts_shouldReturnEmptyArrayWhenNoProductsExist() throws Exception {
+        mockMvc.perform(get("/api/products"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
     }
 
     // ============================================================
