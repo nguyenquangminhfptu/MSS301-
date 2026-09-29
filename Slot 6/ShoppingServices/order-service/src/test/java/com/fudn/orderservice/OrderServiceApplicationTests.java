@@ -1,6 +1,7 @@
 package com.fudn.orderservice;
 
 import com.fudn.orderservice.repository.OrderRepository;
+import com.fudn.orderservice.stub.InventoryStubs;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -18,6 +20,7 @@ import static org.hamcrest.Matchers.is;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWireMock(port = 0)
 class OrderServiceApplicationTests {
     @Container
     @ServiceConnection
@@ -37,6 +40,7 @@ class OrderServiceApplicationTests {
 
     @Test
     void shouldSubmitOrder() {
+        InventoryStubs.stubInventoryCall("iphone_15", 1, true);
         RestAssured.given()
                 .contentType("application/json")
                 .body("""
@@ -61,6 +65,7 @@ class OrderServiceApplicationTests {
 
     @Test
     void shouldGenerateNewIdentityForEveryOrder() {
+        InventoryStubs.stubInventoryCall("iphone_15", 1, true);
         for (int i = 0; i < 2; i++) {
             RestAssured.given().contentType("application/json")
                     .body("""
@@ -72,5 +77,20 @@ class OrderServiceApplicationTests {
         assertThat(orders).hasSize(2);
         assertThat(orders).extracting(o -> o.getId()).doesNotContain(999L).doesNotHaveDuplicates();
         assertThat(orders).extracting(o -> o.getOrderNumber()).doesNotHaveDuplicates();
+    }
+
+    @Test
+    void shouldRejectOrderWhenInventoryIsInsufficient() {
+        InventoryStubs.stubInventoryCall("iphone_15", 101, false);
+
+        RestAssured.given()
+                .contentType("application/json")
+                .body("""
+                    {"skuCode":"iphone_15","price":1000,"quantity":101}
+                    """)
+                .when().post("/api/order")
+                .then().statusCode(500);
+
+        assertThat(orderRepository.count()).isZero();
     }
 }
