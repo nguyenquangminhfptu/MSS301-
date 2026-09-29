@@ -1,0 +1,144 @@
+{
+  "runner": "Newman 6.2.1",
+  "date": "2026-09-29",
+  "requests": 10,
+  "assertions": 16,
+  "failures": 0,
+  "databaseUnchanged": true,
+  "results": [
+    {
+      "name": "01 Check Stock - In Stock",
+      "status": 200,
+      "body": "true",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is true",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "02 Check Stock - Insufficient Stock",
+      "status": 200,
+      "body": "false",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is false",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "03 Check Stock - Boundary Equal",
+      "status": 200,
+      "body": "true",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is true",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "04 Check Stock - Boundary Plus One",
+      "status": 200,
+      "body": "false",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is false",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "05 Check Stock - Unknown SKU",
+      "status": 200,
+      "body": "false",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is false",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "06 Check Stock - Missing Quantity",
+      "status": 400,
+      "body": "{\"timestamp\":\"2026-09-29T14:24:22.965+00:00\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/api/inventory\"}",
+      "assertions": [
+        {
+          "assertion": "Status is 400",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "07 Check Stock - Missing SKU",
+      "status": 400,
+      "body": "{\"timestamp\":\"2026-09-29T14:24:22.986+00:00\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/api/inventory\"}",
+      "assertions": [
+        {
+          "assertion": "Status is 400",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "08 Check Stock - Invalid Quantity Type",
+      "status": 400,
+      "body": "{\"timestamp\":\"2026-09-29T14:24:23.001+00:00\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/api/inventory\"}",
+      "assertions": [
+        {
+          "assertion": "Status is 400",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "09 Check Stock - Negative Quantity - Current Behavior",
+      "status": 200,
+      "body": "true",
+      "assertions": [
+        {
+          "assertion": "Status is 200",
+          "skipped": false
+        },
+        {
+          "assertion": "Body is true",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "10 Check Stock - Wrong Method",
+      "status": 405,
+      "body": "{\"timestamp\":\"2026-09-29T14:24:23.034+00:00\",\"status\":405,\"error\":\"Method Not Allowed\",\"path\":\"/api/inventory\"}",
+      "assertions": [
+        {
+          "assertion": "Status is 405",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}
