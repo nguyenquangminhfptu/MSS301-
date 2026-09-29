@@ -1,0 +1,205 @@
+{
+  "info": {
+    "name": "Inventory Service",
+    "description": "10 test cases for Part 1. Case 9 intentionally records current behavior without positive-quantity validation. Requests do not change inventory.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Check Stock - In Stock",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=100"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is true\", () => pm.expect(pm.response.text()).to.eql(\"true\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Check Stock - Insufficient Stock",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=200"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is false\", () => pm.expect(pm.response.text()).to.eql(\"false\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Check Stock - Boundary Equal",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=pixel_8&quantity=100"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is true\", () => pm.expect(pm.response.text()).to.eql(\"true\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Check Stock - Boundary Plus One",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=pixel_8&quantity=101"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is false\", () => pm.expect(pm.response.text()).to.eql(\"false\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Check Stock - Unknown SKU",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=not_exist_sku&quantity=1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is false\", () => pm.expect(pm.response.text()).to.eql(\"false\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Check Stock - Missing Quantity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Check Stock - Missing SKU",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?quantity=10"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Check Stock - Invalid Quantity Type",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=abc"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Check Stock - Negative Quantity - Current Behavior",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=-5"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Body is true\", () => pm.expect(pm.response.text()).to.eql(\"true\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Check Stock - Wrong Method",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{inventory_base_url}}/api/inventory?skuCode=iphone_15&quantity=1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status is 405\", () => pm.response.to.have.status(405));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
