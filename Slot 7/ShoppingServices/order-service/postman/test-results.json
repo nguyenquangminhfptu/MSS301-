@@ -1,0 +1,139 @@
+{
+  "runner": "Newman 6.2.1",
+  "date": "2026-09-29",
+  "note": "Full 8-case run plus targeted rerun of case 5 after disabling the automatic Content-Type header. Entries show latest result for each case.",
+  "results": [
+    {
+      "name": "01 Create Order - Success",
+      "status": 201,
+      "body": "Order Placed Successfully",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Response body is correct message",
+          "skipped": false
+        },
+        {
+          "assertion": "Content-Type is text/plain",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "02 Create Order - Decimal Price and Quantity",
+      "status": 201,
+      "body": "Order Placed Successfully",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Response body is correct message",
+          "skipped": false
+        },
+        {
+          "assertion": "Content-Type is text/plain",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "03 Create Order - Missing skuCode",
+      "status": 201,
+      "body": "Order Placed Successfully",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Response body is correct message",
+          "skipped": false
+        },
+        {
+          "assertion": "Content-Type is text/plain",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "04 Create Order - Invalid Quantity Type",
+      "status": 400,
+      "body": "{\"timestamp\":\"2026-09-29T14:15:38.840+00:00\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/api/order\"}",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 400",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "05 Create Order - Missing Content-Type",
+      "status": 415,
+      "body": "{\"timestamp\":\"2026-09-29T14:16:12.160+00:00\",\"status\":415,\"error\":\"Unsupported Media Type\",\"path\":\"/api/order\"}",
+      "requestContentType": null,
+      "assertions": [
+        {
+          "assertion": "Status code is 415",
+          "skipped": false
+        },
+        {
+          "assertion": "No active Content-Type header",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "06 Create Order - Empty JSON Object",
+      "status": 201,
+      "body": "Order Placed Successfully",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 201",
+          "skipped": false
+        },
+        {
+          "assertion": "Response body is correct message",
+          "skipped": false
+        },
+        {
+          "assertion": "Content-Type is text/plain",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "07 Order - Wrong Method",
+      "status": 405,
+      "body": "{\"timestamp\":\"2026-09-29T14:15:38.895+00:00\",\"status\":405,\"error\":\"Method Not Allowed\",\"path\":\"/api/order\"}",
+      "requestContentType": null,
+      "assertions": [
+        {
+          "assertion": "Status code is 405",
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "08 Order - Wrong Path",
+      "status": 404,
+      "body": "{\"timestamp\":\"2026-09-29T14:15:38.910+00:00\",\"status\":404,\"error\":\"Not Found\",\"path\":\"/api/orders\"}",
+      "requestContentType": "application/json",
+      "assertions": [
+        {
+          "assertion": "Status code is 404",
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

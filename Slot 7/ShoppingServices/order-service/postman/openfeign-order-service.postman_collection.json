@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "Order Service - OpenFeign Part 2",
+    "description": "Start Inventory Service on 8082 before running. The first request saves an order; the second verifies the out-of-stock path.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "order_base_url",
+      "value": "http://localhost:8081"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Place order - inventory available",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "options": { "raw": { "language": "json" } },
+          "raw": "{\n  \"skuCode\": \"iphone_15\",\n  \"price\": 1000,\n  \"quantity\": 100\n}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('201 Created', () => pm.response.to.have.status(201));",
+          "pm.test('Success message', () => pm.expect(pm.response.text()).to.eql('Order Placed Successfully'));"
+        ] }
+      }]
+    },
+    {
+      "name": "02 Place order - inventory unavailable",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "options": { "raw": { "language": "json" } },
+          "raw": "{\n  \"skuCode\": \"iphone_15\",\n  \"price\": 1000,\n  \"quantity\": 101\n}"
+        }
+      },
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('500 Internal Server Error', () => pm.response.to.have.status(500));"
+        ] }
+      }]
+    }
+  ]
+}
