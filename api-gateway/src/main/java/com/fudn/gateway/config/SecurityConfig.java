@@ -28,9 +28,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        GatewayErrorHandler errors = new GatewayErrorHandler();
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(e -> e.authenticationEntryPoint(errors).accessDeniedHandler(errors))
                 .authorizeHttpRequests(auth -> auth
                         // ---------- Public ----------
                         .requestMatchers("/actuator/health").permitAll()
@@ -55,7 +57,8 @@ public class SecurityConfig {
 
                         .anyRequest().denyAll()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt
+                .oauth2ResourceServer(oauth2 -> oauth2.authenticationEntryPoint(errors)
+                        .accessDeniedHandler(errors).jwt(jwt -> jwt
                         .decoder(jwtDecoder())
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .build();

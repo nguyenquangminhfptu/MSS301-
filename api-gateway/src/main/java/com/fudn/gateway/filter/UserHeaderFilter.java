@@ -22,9 +22,9 @@ public final class UserHeaderFilter {
             // (1) Xoa header client tu gui len
             ServerRequest.Builder builder = ServerRequest.from(request)
                     .headers(headers -> {
-                        headers.remove(USER_ID);
-                        headers.remove(USER_EMAIL);
-                        headers.remove(USER_ROLE);
+                        headers.headerNames().stream()
+                                .filter(name -> name.regionMatches(true, 0, "X-User-", 0, 7))
+                                .toList().forEach(headers::remove);
                     });
 
             // (2) Chen lai tu JWT da duoc Spring Security xac thuc
