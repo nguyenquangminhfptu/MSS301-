@@ -1,0 +1,56 @@
+[
+  'cinema_rooms',
+  'showtimes',
+  'movies',
+  'genres'
+]
+[
+  {
+    v: 2,
+    key: {
+      _id: 1
+    },
+    name: '_id_'
+  },
+  {
+    v: 2,
+    key: {
+      genreName: 1
+    },
+    name: 'genreName',
+    unique: true
+  }
+]
+[
+  {
+    v: 2,
+    key: {
+      _id: 1
+    },
+    name: '_id_'
+  },
+  {
+    v: 2,
+    key: {
+      roomName: 1
+    },
+    name: 'roomName',
+    unique: true
+  }
+]
+{
+  _id: ObjectId('66f300000000000000000001'),
+  movieId: '66f200000000000000000001',
+  roomId: '66f100000000000000000001',
+  startTime: ISODate('2026-12-20T12:00:00.000Z'),
+  endTime: ISODate('2026-12-20T14:05:00.000Z'),
+  ticketPrice: Decimal128('95000'),
+  showtimeStatus: 'SCHEDULED',
+  _class: 'com.fudn.movieservice.model.Showtime'
+}
+{
+  genres: 6,
+  rooms: 5,
+  movies: 5,
+  showtimes: 9
+}

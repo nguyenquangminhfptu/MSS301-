@@ -1,0 +1,12 @@
+PASS Expired JWT returns 401: {"status": 401}
+PASS Wrong JWT signature returns 401: {"status": 401}
+PASS Client supplied price rejected: {"status": 400}
+PASS Concurrent seat purchase has one winner: {"statuses": [201, 409]}
+PASS Admin cancels concurrent winning booking: {"status": 200}
+PASS Cancelled concurrent booking releases seat: {"bookedSeats": ["A1", "E5", "E6"]}
+PASS Customer cancellation inside two hours denied: {"status": 400}
+PASS Admin overrides cancellation deadline: {"status": 200}
+PASS Report sorts multiple movie revenues descending: {"revenues": [285000.0, 150000.0], "totalRevenue": 435000.0}
+PASS Movie Service unavailable returns 503: {"status": 503, "message": "Movie service is unavailable. Please try again later."}
+PASS Movie Service restored after outage: {"status": 200}
+Holding restored Movie Service open

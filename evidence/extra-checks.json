@@ -1,0 +1,91 @@
+[
+  {
+    "name": "Expired JWT returns 401",
+    "passed": true,
+    "detail": {
+      "status": 401
+    }
+  },
+  {
+    "name": "Wrong JWT signature returns 401",
+    "passed": true,
+    "detail": {
+      "status": 401
+    }
+  },
+  {
+    "name": "Client supplied price rejected",
+    "passed": true,
+    "detail": {
+      "status": 400
+    }
+  },
+  {
+    "name": "Concurrent seat purchase has one winner",
+    "passed": true,
+    "detail": {
+      "statuses": [
+        201,
+        409
+      ]
+    }
+  },
+  {
+    "name": "Admin cancels concurrent winning booking",
+    "passed": true,
+    "detail": {
+      "status": 200
+    }
+  },
+  {
+    "name": "Cancelled concurrent booking releases seat",
+    "passed": true,
+    "detail": {
+      "bookedSeats": [
+        "A1",
+        "E5",
+        "E6"
+      ]
+    }
+  },
+  {
+    "name": "Customer cancellation inside two hours denied",
+    "passed": true,
+    "detail": {
+      "status": 400
+    }
+  },
+  {
+    "name": "Admin overrides cancellation deadline",
+    "passed": true,
+    "detail": {
+      "status": 200
+    }
+  },
+  {
+    "name": "Report sorts multiple movie revenues descending",
+    "passed": true,
+    "detail": {
+      "revenues": [
+        285000.0,
+        150000.0
+      ],
+      "totalRevenue": 435000.0
+    }
+  },
+  {
+    "name": "Movie Service unavailable returns 503",
+    "passed": true,
+    "detail": {
+      "status": 503,
+      "message": "Movie service is unavailable. Please try again later."
+    }
+  },
+  {
+    "name": "Movie Service restored after outage",
+    "passed": true,
+    "detail": {
+      "status": 200
+    }
+  }
+]
