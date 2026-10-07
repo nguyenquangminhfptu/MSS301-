@@ -1,0 +1,6 @@
+{
+  genres: 6,
+  rooms: 5,
+  movies: 5,
+  showtimes: 9
+}

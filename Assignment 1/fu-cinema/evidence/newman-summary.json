@@ -1,0 +1,2316 @@
+{
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 85,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 88,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 85,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 85,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 85,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 159,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 85,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 3,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "timings": {
+    "responseAverage": 37.60000000000001,
+    "responseMin": 2,
+    "responseMax": 513,
+    "responseSd": 64.18542990246857,
+    "dnsAverage": 0,
+    "dnsMin": 0,
+    "dnsMax": 0,
+    "dnsSd": 0,
+    "firstByteAverage": 0,
+    "firstByteMin": 0,
+    "firstByteMax": 0,
+    "firstByteSd": 0,
+    "started": 1791389974850,
+    "completed": 1791389979016
+  },
+  "failureCount": 0,
+  "executions": [
+    {
+      "name": "1.1 POST /api/auth/login",
+      "method": "POST",
+      "status": 200,
+      "responseTimeMs": 56,
+      "body": {
+        "accessToken": "[redacted]",
+        "tokenType": "Bearer",
+        "expiresIn": 3600,
+        "role": "ADMIN",
+        "userId": 0,
+        "email": "admin@fucinema.com",
+        "fullName": "Administrator"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Role is ADMIN",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.2 POST /api/auth/login",
+      "method": "POST",
+      "status": 200,
+      "responseTimeMs": 513,
+      "body": {
+        "accessToken": "[redacted]",
+        "tokenType": "Bearer",
+        "expiresIn": 3600,
+        "role": "CUSTOMER",
+        "userId": 1,
+        "email": "an@gmail.com",
+        "fullName": "Nguyễn Văn An"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Customer 1",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.3 POST /api/auth/login",
+      "method": "POST",
+      "status": 401,
+      "responseTimeMs": 95,
+      "body": {
+        "timestamp": "2026-10-07T23:19:35.552109",
+        "status": 401,
+        "error": "Unauthorized",
+        "message": "Invalid email or password",
+        "path": "/api/auth/login"
+      },
+      "assertions": [
+        {
+          "name": "Status 401",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.4 POST /api/auth/login",
+      "method": "POST",
+      "status": 403,
+      "responseTimeMs": 88,
+      "body": {
+        "timestamp": "2026-10-07T23:19:35.65594",
+        "status": 403,
+        "error": "Forbidden",
+        "message": "Your account is inactive. Please contact the administrator.",
+        "path": "/api/auth/login"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.5 POST /api/auth/login",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 12,
+      "body": {
+        "timestamp": "2026-10-07T23:19:35.677937",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "password: Password is required; email: Email is invalid",
+        "path": "/api/auth/login"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.6 GET /api/customers/me",
+      "method": "GET",
+      "status": 401,
+      "responseTimeMs": 5,
+      "body": {
+        "message": "A valid Bearer token is required",
+        "status": 401,
+        "path": "/api/customers/me",
+        "error": "Unauthorized",
+        "timestamp": "2026-10-07T23:19:35.694969"
+      },
+      "assertions": [
+        {
+          "name": "Status 401",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "1.7 GET /api/customers/me",
+      "method": "GET",
+      "status": 401,
+      "responseTimeMs": 31,
+      "body": {
+        "message": "A valid Bearer token is required",
+        "status": 401,
+        "path": "/api/customers/me",
+        "error": "Unauthorized",
+        "timestamp": "2026-10-07T23:19:35.737667"
+      },
+      "assertions": [
+        {
+          "name": "Status 401",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.1 POST /api/customers/register",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 169,
+      "body": {
+        "customerId": 4,
+        "customerName": "Phạm Thị Dung",
+        "telephone": "0987654321",
+        "email": "user1791389975747@gmail.com",
+        "customerBirthday": "2004-03-15",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        },
+        {
+          "name": "Active and password hidden",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.2 POST /api/customers/register",
+      "method": "POST",
+      "status": 409,
+      "responseTimeMs": 20,
+      "body": {
+        "timestamp": "2026-10-07T23:19:35.949171",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Email is already in use: an@gmail.com",
+        "path": "/api/customers/register"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.3 POST /api/customers/register",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 7,
+      "body": {
+        "timestamp": "2026-10-07T23:19:35.967351",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "password: Password must be 6-50 characters; customerName: Customer name is required; email: Email is invalid; telephone: Telephone must have 10 digits and start with 0; customerBirthday: Birthday must be in the past",
+        "path": "/api/customers/register"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        },
+        {
+          "name": "Validation: customerName",
+          "passed": true
+        },
+        {
+          "name": "Validation: telephone",
+          "passed": true
+        },
+        {
+          "name": "Validation: email",
+          "passed": true
+        },
+        {
+          "name": "Validation: customerBirthday",
+          "passed": true
+        },
+        {
+          "name": "Validation: password",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.4 POST /api/auth/login",
+      "method": "POST",
+      "status": 200,
+      "responseTimeMs": 94,
+      "body": {
+        "accessToken": "[redacted]",
+        "tokenType": "Bearer",
+        "expiresIn": 3600,
+        "role": "CUSTOMER",
+        "userId": 4,
+        "email": "user1791389975747@gmail.com",
+        "fullName": "Phạm Thị Dung"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.5 GET /api/customers/me",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 44,
+      "body": {
+        "customerId": 1,
+        "customerName": "Nguyễn Văn An",
+        "telephone": "0905123456",
+        "email": "an@gmail.com",
+        "customerBirthday": "2002-05-10",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Own profile",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.6 PUT /api/customers/me",
+      "method": "PUT",
+      "status": 200,
+      "responseTimeMs": 45,
+      "body": {
+        "customerId": 1,
+        "customerName": "Nguyễn Văn An (updated)",
+        "telephone": "0905999999",
+        "email": "an@gmail.com",
+        "customerBirthday": "2002-05-10",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Unicode preserved",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.7 PUT /api/customers/me/password",
+      "method": "PUT",
+      "status": 400,
+      "responseTimeMs": 98,
+      "body": {
+        "timestamp": "2026-10-07T23:19:36.290558",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Old password is incorrect",
+        "path": "/api/customers/me/password"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.8 PUT /api/customers/me/password",
+      "method": "PUT",
+      "status": 204,
+      "responseTimeMs": 182,
+      "body": null,
+      "assertions": [
+        {
+          "name": "Status 204",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.9 POST /api/auth/login",
+      "method": "POST",
+      "status": 200,
+      "responseTimeMs": 89,
+      "body": {
+        "accessToken": "[redacted]",
+        "tokenType": "Bearer",
+        "expiresIn": 3600,
+        "role": "CUSTOMER",
+        "userId": 4,
+        "email": "user1791389975747@gmail.com",
+        "fullName": "Phạm Thị Dung"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.10 GET /api/customers",
+      "method": "GET",
+      "status": 403,
+      "responseTimeMs": 8,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/customers",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:36.601951"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.11 GET /api/customers?keyword=gmail",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 43,
+      "body": [
+        {
+          "customerId": 1,
+          "customerName": "Nguyễn Văn An (updated)",
+          "telephone": "0905999999",
+          "email": "an@gmail.com",
+          "customerBirthday": "2002-05-10",
+          "customerStatus": "ACTIVE"
+        },
+        {
+          "customerId": 2,
+          "customerName": "Trần Thị Bình",
+          "telephone": "0914234567",
+          "email": "binh@gmail.com",
+          "customerBirthday": "2003-08-21",
+          "customerStatus": "ACTIVE"
+        },
+        {
+          "customerId": 3,
+          "customerName": "Lê Minh Chi",
+          "telephone": "0935345678",
+          "email": "chi@gmail.com",
+          "customerBirthday": "2001-12-01",
+          "customerStatus": "INACTIVE"
+        },
+        {
+          "customerId": 4,
+          "customerName": "Phạm Thị Dung",
+          "telephone": "0987654321",
+          "email": "user1791389975747@gmail.com",
+          "customerBirthday": "2004-03-15",
+          "customerStatus": "ACTIVE"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.12 GET /api/customers/99999",
+      "method": "GET",
+      "status": 404,
+      "responseTimeMs": 12,
+      "body": {
+        "timestamp": "2026-10-07T23:19:36.679467",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Customer not found with id: 99999",
+        "path": "/api/customers/99999"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.13 POST /api/customers",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 105,
+      "body": {
+        "customerId": 5,
+        "customerName": "Phạm Thị Dung",
+        "telephone": "0987654321",
+        "email": "admincreated1791389975747@gmail.com",
+        "customerBirthday": "2004-03-15",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.14 PUT /api/customers/{{adminCreatedId}}",
+      "method": "PUT",
+      "status": 200,
+      "responseTimeMs": 35,
+      "body": {
+        "customerId": 5,
+        "customerName": "Khách quản trị cập nhật",
+        "telephone": "0987654321",
+        "email": "admincreated1791389975747@gmail.com",
+        "customerBirthday": "2004-03-15",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.15 DELETE /api/customers/{{adminCreatedId}}",
+      "method": "DELETE",
+      "status": 204,
+      "responseTimeMs": 51,
+      "body": null,
+      "assertions": [
+        {
+          "name": "Status 204",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.16 GET /api/customers/{{adminCreatedId}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 11,
+      "body": {
+        "customerId": 5,
+        "customerName": "Khách quản trị cập nhật",
+        "telephone": "0987654321",
+        "email": "admincreated1791389975747@gmail.com",
+        "customerBirthday": "2004-03-15",
+        "customerStatus": "INACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Soft deleted",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.17 GET /api/customers/me",
+      "method": "GET",
+      "status": 403,
+      "responseTimeMs": 3,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/customers/me",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:36.952761"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "2.18 GET /api/customers/me",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 11,
+      "body": {
+        "customerId": 1,
+        "customerName": "Nguyễn Văn An (updated)",
+        "telephone": "0905999999",
+        "email": "an@gmail.com",
+        "customerBirthday": "2002-05-10",
+        "customerStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Spoofed header overwritten",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.1 GET /api/genres",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 21,
+      "body": [
+        {
+          "genreId": "66f000000000000000000002",
+          "genreName": "Hoạt hình",
+          "description": "Phim hoạt hình cho mọi lứa tuổi"
+        },
+        {
+          "genreId": "66f000000000000000000001",
+          "genreName": "Hành động",
+          "description": "Phim hành động, võ thuật"
+        },
+        {
+          "genreId": "66f000000000000000000005",
+          "genreName": "Khoa học viễn tưởng",
+          "description": "Phim khoa học viễn tưởng"
+        },
+        {
+          "genreId": "66f000000000000000000003",
+          "genreName": "Kinh dị",
+          "description": "Phim kinh dị, giật gân"
+        },
+        {
+          "genreId": "66f000000000000000000004",
+          "genreName": "Tình cảm",
+          "description": "Phim tình cảm, lãng mạn"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Seed genres exist",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.2 POST /api/genres",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 118,
+      "body": {
+        "genreId": "6ac671192d3acac6e9fbafeb",
+        "genreName": "Tài liệu 1791389977",
+        "description": "Phim tài liệu"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.3 POST /api/genres",
+      "method": "POST",
+      "status": 403,
+      "responseTimeMs": 3,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/genres",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:37.146852"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.4 POST /api/genres",
+      "method": "POST",
+      "status": 409,
+      "responseTimeMs": 16,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.168429",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Genre name already exists: Hành động",
+        "path": "/api/genres"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.5 PUT /api/genres/{{genreId}}",
+      "method": "PUT",
+      "status": 200,
+      "responseTimeMs": 22,
+      "body": {
+        "genreId": "6ac671192d3acac6e9fbafeb",
+        "genreName": "Tài liệu 1791389977",
+        "description": "Đã cập nhật"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.6 DELETE /api/genres/{{seedGenreScifiId}}",
+      "method": "DELETE",
+      "status": 409,
+      "responseTimeMs": 11,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.227705",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Cannot delete genre that still has movies",
+        "path": "/api/genres/66f000000000000000000005"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.7 POST /api/rooms",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 30,
+      "body": {
+        "roomId": "6ac671192d3acac6e9fbafec",
+        "roomName": "Room Test 1791389977",
+        "roomType": "STANDARD",
+        "seatRows": 5,
+        "seatsPerRow": 8,
+        "totalSeats": 40,
+        "roomStatus": "ACTIVE"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        },
+        {
+          "name": "Room capacity",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.8 GET /api/rooms",
+      "method": "GET",
+      "status": 401,
+      "responseTimeMs": 2,
+      "body": {
+        "message": "A valid Bearer token is required",
+        "status": 401,
+        "path": "/api/rooms",
+        "error": "Unauthorized",
+        "timestamp": "2026-10-07T23:19:37.281926"
+      },
+      "assertions": [
+        {
+          "name": "Status 401",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.9 POST /api/rooms",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 9,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.300384",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Invalid request: JSON parse error: Cannot deserialize value of type `com.fudn.movieservice.model.RoomType` from String \"VIP\": not one of the values accepted for Enum class: [IMAX, STANDARD, THREE_D]",
+        "path": "/api/rooms"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "3.10 POST /api/rooms",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 14,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.324654",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "seatRows: seatRows must be 1-26",
+        "path": "/api/rooms"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.1 POST /api/movies",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 54,
+      "body": {
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "title": "Hành Trình Phương Nam",
+        "description": "Phim tài liệu về miền Tây sông nước.",
+        "director": "Lê Hoàng",
+        "durationMinutes": 120,
+        "language": "Tiếng Việt",
+        "ageRating": "P",
+        "releaseDate": "2026-10-01",
+        "genreId": "6ac671192d3acac6e9fbafeb",
+        "genreName": "Tài liệu 1791389977",
+        "movieStatus": "NOW_SHOWING"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        },
+        {
+          "name": "ObjectId and genre join",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.2 GET /api/movies?keyword=galaxy",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 18,
+      "body": [
+        {
+          "movieId": "66f200000000000000000001",
+          "title": "Galaxy Rangers",
+          "description": "Đội biệt kích không gian bảo vệ dải ngân hà.",
+          "director": "John Carter",
+          "durationMinutes": 125,
+          "language": "English",
+          "ageRating": "T13",
+          "releaseDate": "2026-09-20",
+          "genreId": "66f000000000000000000005",
+          "genreName": "Khoa học viễn tưởng",
+          "movieStatus": "NOW_SHOWING"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Galaxy found",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.3 GET /api/movies?status=NOW_SHOWING&genreId={{seedGenreScifiId}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 12,
+      "body": [
+        {
+          "movieId": "66f200000000000000000001",
+          "title": "Galaxy Rangers",
+          "description": "Đội biệt kích không gian bảo vệ dải ngân hà.",
+          "director": "John Carter",
+          "durationMinutes": 125,
+          "language": "English",
+          "ageRating": "T13",
+          "releaseDate": "2026-09-20",
+          "genreId": "66f000000000000000000005",
+          "genreName": "Khoa học viễn tưởng",
+          "movieStatus": "NOW_SHOWING"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Movie filters",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.4 PUT /api/movies/{{movieId}}",
+      "method": "PUT",
+      "status": 200,
+      "responseTimeMs": 13,
+      "body": {
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "title": "Hành Trình Phương Nam",
+        "description": "Phim tài liệu về miền Tây sông nước.",
+        "director": "Lê Hoàng",
+        "durationMinutes": 120,
+        "language": "Tiếng Việt",
+        "ageRating": "P",
+        "releaseDate": "2026-10-01",
+        "genreId": "6ac671192d3acac6e9fbafeb",
+        "genreName": "Tài liệu 1791389977",
+        "movieStatus": "NOW_SHOWING"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.5 GET /api/movies/{{notFoundId}}",
+      "method": "GET",
+      "status": 404,
+      "responseTimeMs": 10,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.490145",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Movie not found with id: 66f9ffffffffffffffffffff",
+        "path": "/api/movies/66f9ffffffffffffffffffff"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.6 POST /api/movies",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 8,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.508882",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "durationMinutes: Duration must be 30-300 minutes",
+        "path": "/api/movies"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.7 POST /api/movies",
+      "method": "POST",
+      "status": 404,
+      "responseTimeMs": 12,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.531762",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Genre not found with id: 66f9ffffffffffffffffffff",
+        "path": "/api/movies"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "4.8 DELETE /api/genres/{{genreId}}",
+      "method": "DELETE",
+      "status": 409,
+      "responseTimeMs": 11,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.55653",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Cannot delete genre that still has movies",
+        "path": "/api/genres/6ac671192d3acac6e9fbafeb"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.1 POST /api/showtimes",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 30,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafee",
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomId": "6ac671192d3acac6e9fbafec",
+        "roomName": "Room Test 1791389977",
+        "seatRows": 5,
+        "seatsPerRow": 8,
+        "startTime": "2026-10-14T19:00:00",
+        "endTime": "2026-10-14T21:00:00",
+        "ticketPrice": 95000,
+        "showtimeStatus": "SCHEDULED"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        },
+        {
+          "name": "Computed end time",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.2 POST /api/showtimes",
+      "method": "POST",
+      "status": 409,
+      "responseTimeMs": 22,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.63218",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Room 'Room Test 1791389977' already has a showtime between 2026-10-14T20:00 and 2026-10-14T22:00",
+        "path": "/api/showtimes"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.3 POST /api/showtimes",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 15,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafef",
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomId": "66f100000000000000000002",
+        "roomName": "Room 02",
+        "seatRows": 6,
+        "seatsPerRow": 8,
+        "startTime": "2026-10-14T19:00:00",
+        "endTime": "2026-10-14T21:00:00",
+        "ticketPrice": 95000,
+        "showtimeStatus": "SCHEDULED"
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.4 POST /api/showtimes",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 11,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.67919",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Movie 'Mùa Hè Năm Ấy' has ENDED and cannot be scheduled",
+        "path": "/api/showtimes"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.5 POST /api/showtimes",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 13,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.70228",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Room 'Room 04' is not ACTIVE",
+        "path": "/api/showtimes"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.6 POST /api/showtimes",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 8,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.720208",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "startTime: Start time must be in the future",
+        "path": "/api/showtimes"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.7 GET /api/showtimes?movieId={{movieId}}&date={{futureDate}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 16,
+      "body": [
+        {
+          "showtimeId": "6ac671192d3acac6e9fbafee",
+          "movieId": "6ac671192d3acac6e9fbafed",
+          "movieTitle": "Hành Trình Phương Nam",
+          "roomId": "6ac671192d3acac6e9fbafec",
+          "roomName": "Room Test 1791389977",
+          "seatRows": 5,
+          "seatsPerRow": 8,
+          "startTime": "2026-10-14T19:00:00",
+          "endTime": "2026-10-14T21:00:00",
+          "ticketPrice": 95000,
+          "showtimeStatus": "SCHEDULED"
+        },
+        {
+          "showtimeId": "6ac671192d3acac6e9fbafef",
+          "movieId": "6ac671192d3acac6e9fbafed",
+          "movieTitle": "Hành Trình Phương Nam",
+          "roomId": "66f100000000000000000002",
+          "roomName": "Room 02",
+          "seatRows": 6,
+          "seatsPerRow": 8,
+          "startTime": "2026-10-14T19:00:00",
+          "endTime": "2026-10-14T21:00:00",
+          "ticketPrice": 95000,
+          "showtimeStatus": "SCHEDULED"
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Showtime filters",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.8 GET /api/showtimes/{{showtimeId}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 10,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafee",
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomId": "6ac671192d3acac6e9fbafec",
+        "roomName": "Room Test 1791389977",
+        "seatRows": 5,
+        "seatsPerRow": 8,
+        "startTime": "2026-10-14T19:00:00",
+        "endTime": "2026-10-14T21:00:00",
+        "ticketPrice": 95000,
+        "showtimeStatus": "SCHEDULED"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Seat layout",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.9 DELETE /api/showtimes/{{showtime2Id}}",
+      "method": "DELETE",
+      "status": 204,
+      "responseTimeMs": 10,
+      "body": null,
+      "assertions": [
+        {
+          "name": "Status 204",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.10 GET /api/showtimes/{{showtime2Id}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 11,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafef",
+        "movieId": "6ac671192d3acac6e9fbafed",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomId": "66f100000000000000000002",
+        "roomName": "Room 02",
+        "seatRows": 6,
+        "seatsPerRow": 8,
+        "startTime": "2026-10-14T19:00:00",
+        "endTime": "2026-10-14T21:00:00",
+        "ticketPrice": 95000,
+        "showtimeStatus": "CANCELLED"
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Showtime cancelled",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.11 DELETE /api/rooms/{{roomId}}",
+      "method": "DELETE",
+      "status": 409,
+      "responseTimeMs": 11,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.82787",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Cannot delete room that already has showtimes",
+        "path": "/api/rooms/6ac671192d3acac6e9fbafec"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.12 DELETE /api/movies/{{movieId}}",
+      "method": "DELETE",
+      "status": 409,
+      "responseTimeMs": 11,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.848256",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Cannot delete movie that already has showtimes. Set status to ENDED instead.",
+        "path": "/api/movies/6ac671192d3acac6e9fbafed"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "5.13 POST /api/showtimes",
+      "method": "POST",
+      "status": 404,
+      "responseTimeMs": 9,
+      "body": {
+        "timestamp": "2026-10-07T23:19:37.86725",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Movie not found with id: 66f9ffffffffffffffffffff",
+        "path": "/api/showtimes"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.1 GET /api/bookings/showtimes/{{showtimeId}}/seats",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 63,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafee",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomName": "Room Test 1791389977",
+        "startTime": "2026-10-14T19:00:00",
+        "seatRows": 5,
+        "seatsPerRow": 8,
+        "totalSeats": 40,
+        "availableSeats": 40,
+        "bookedSeats": []
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "All 40 seats available",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.2 POST /api/bookings",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 180,
+      "body": {
+        "bookingId": 1,
+        "bookingDate": "2026-10-07T23:19:38.048628",
+        "customerId": 1,
+        "totalPrice": 190000,
+        "bookingStatus": "CONFIRMED",
+        "details": [
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "E5",
+            "price": 95000
+          },
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "E6",
+            "price": 95000
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        },
+        {
+          "name": "Server price and snapshot",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.3 POST /api/bookings",
+      "method": "POST",
+      "status": 409,
+      "responseTimeMs": 41,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.175534",
+        "status": 409,
+        "error": "Conflict",
+        "message": "Seat E5 of showtime 6ac671192d3acac6e9fbafee is already booked",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 409",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.4 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 25,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.22123",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Seat E9 does not exist in room Room Test 1791389977 (rows A-E, seats 1-8)",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.5 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 24,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.256421",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Seat F1 does not exist in room Room Test 1791389977 (rows A-E, seats 1-8)",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.6 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 27,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.29273",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Duplicate seat A2 of showtime 6ac671192d3acac6e9fbafee in request",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.7 POST /api/bookings",
+      "method": "POST",
+      "status": 404,
+      "responseTimeMs": 23,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.327777",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Showtime not found with id: 66f9ffffffffffffffffffff",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.8 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 22,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.361383",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Showtime 6ac671192d3acac6e9fbafef is not available (CANCELLED)",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.9 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 16,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.388049",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "items: A booking can have at most 8 tickets",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.10 POST /api/bookings",
+      "method": "POST",
+      "status": 400,
+      "responseTimeMs": 8,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.407136",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "items: Booking must have at least 1 ticket",
+        "path": "/api/bookings"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.11 POST /api/bookings",
+      "method": "POST",
+      "status": 403,
+      "responseTimeMs": 3,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/bookings",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:38.421856"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.12 POST /api/bookings",
+      "method": "POST",
+      "status": 401,
+      "responseTimeMs": 2,
+      "body": {
+        "message": "A valid Bearer token is required",
+        "status": 401,
+        "path": "/api/bookings",
+        "error": "Unauthorized",
+        "timestamp": "2026-10-07T23:19:38.433678"
+      },
+      "assertions": [
+        {
+          "name": "Status 401",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.13 POST /api/bookings",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 30,
+      "body": {
+        "bookingId": 2,
+        "bookingDate": "2026-10-07T23:19:38.452636",
+        "customerId": 4,
+        "totalPrice": 95000,
+        "bookingStatus": "CONFIRMED",
+        "details": [
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "A1",
+            "price": 95000
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "6.14 GET /api/bookings/showtimes/{{showtimeId}}/seats",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 33,
+      "body": {
+        "showtimeId": "6ac671192d3acac6e9fbafee",
+        "movieTitle": "Hành Trình Phương Nam",
+        "roomName": "Room Test 1791389977",
+        "startTime": "2026-10-14T19:00:00",
+        "seatRows": 5,
+        "seatsPerRow": 8,
+        "totalSeats": 40,
+        "availableSeats": 37,
+        "bookedSeats": [
+          "A1",
+          "E5",
+          "E6"
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Seats reserved",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.1 GET /api/bookings/my",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 51,
+      "body": [
+        {
+          "bookingId": 1,
+          "bookingDate": "2026-10-07T23:19:38",
+          "customerId": 1,
+          "totalPrice": 190000.0,
+          "bookingStatus": "CONFIRMED",
+          "details": [
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "E5",
+              "price": 95000.0
+            },
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "E6",
+              "price": 95000.0
+            }
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Own history in descending order",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.2 GET /api/bookings/{{bookingId}}",
+      "method": "GET",
+      "status": 403,
+      "responseTimeMs": 17,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.606415",
+        "status": 403,
+        "error": "Forbidden",
+        "message": "You can only access your own bookings",
+        "path": "/api/bookings/1"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.3 GET /api/bookings/{{bookingId}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 20,
+      "body": {
+        "bookingId": 1,
+        "bookingDate": "2026-10-07T23:19:38",
+        "customerId": 1,
+        "totalPrice": 190000.0,
+        "bookingStatus": "CONFIRMED",
+        "details": [
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "E5",
+            "price": 95000.0
+          },
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "E6",
+            "price": 95000.0
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.4 PUT /api/bookings/{{booking2Id}}/cancel",
+      "method": "PUT",
+      "status": 403,
+      "responseTimeMs": 12,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.660933",
+        "status": 403,
+        "error": "Forbidden",
+        "message": "You can only access your own bookings",
+        "path": "/api/bookings/2/cancel"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.5 PUT /api/bookings/{{booking2Id}}/cancel",
+      "method": "PUT",
+      "status": 200,
+      "responseTimeMs": 24,
+      "body": {
+        "bookingId": 2,
+        "bookingDate": "2026-10-07T23:19:38",
+        "customerId": 4,
+        "totalPrice": 95000.0,
+        "bookingStatus": "CANCELLED",
+        "details": [
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "A1",
+            "price": 95000.0
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Booking cancelled",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.6 PUT /api/bookings/{{booking2Id}}/cancel",
+      "method": "PUT",
+      "status": 400,
+      "responseTimeMs": 55,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.766114",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Only CONFIRMED bookings can be cancelled",
+        "path": "/api/bookings/2/cancel"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.7 POST /api/bookings",
+      "method": "POST",
+      "status": 201,
+      "responseTimeMs": 30,
+      "body": {
+        "bookingId": 3,
+        "bookingDate": "2026-10-07T23:19:38.800732",
+        "customerId": 1,
+        "totalPrice": 95000,
+        "bookingStatus": "CONFIRMED",
+        "details": [
+          {
+            "showtimeId": "6ac671192d3acac6e9fbafee",
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "roomName": "Room Test 1791389977",
+            "showtimeStart": "2026-10-14T19:00:00",
+            "seatCode": "A1",
+            "price": 95000
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 201",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.8 GET /api/bookings",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 22,
+      "body": [
+        {
+          "bookingId": 3,
+          "bookingDate": "2026-10-07T23:19:39",
+          "customerId": 1,
+          "totalPrice": 95000.0,
+          "bookingStatus": "CONFIRMED",
+          "details": [
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "A1",
+              "price": 95000.0
+            }
+          ]
+        },
+        {
+          "bookingId": 1,
+          "bookingDate": "2026-10-07T23:19:38",
+          "customerId": 1,
+          "totalPrice": 190000.0,
+          "bookingStatus": "CONFIRMED",
+          "details": [
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "E5",
+              "price": 95000.0
+            },
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "E6",
+              "price": 95000.0
+            }
+          ]
+        },
+        {
+          "bookingId": 2,
+          "bookingDate": "2026-10-07T23:19:38",
+          "customerId": 4,
+          "totalPrice": 95000.0,
+          "bookingStatus": "CANCELLED",
+          "details": [
+            {
+              "showtimeId": "6ac671192d3acac6e9fbafee",
+              "movieId": "6ac671192d3acac6e9fbafed",
+              "movieTitle": "Hành Trình Phương Nam",
+              "roomName": "Room Test 1791389977",
+              "showtimeStart": "2026-10-14T19:00:00",
+              "seatCode": "A1",
+              "price": 95000.0
+            }
+          ]
+        }
+      ],
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.9 GET /api/bookings/my",
+      "method": "GET",
+      "status": 403,
+      "responseTimeMs": 3,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/bookings/my",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:38.869172"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "7.10 GET /api/bookings/99999",
+      "method": "GET",
+      "status": 404,
+      "responseTimeMs": 12,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.88947",
+        "status": 404,
+        "error": "Not Found",
+        "message": "Booking not found with id: 99999",
+        "path": "/api/bookings/99999"
+      },
+      "assertions": [
+        {
+          "name": "Status 404",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "8.1 GET /api/bookings/report?startDate={{today}}&endDate={{today}}",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 33,
+      "body": {
+        "startDate": "2026-10-07",
+        "endDate": "2026-10-07",
+        "totalBookings": 2,
+        "totalTickets": 3,
+        "totalRevenue": 285000.0,
+        "revenueByMovie": [
+          {
+            "movieId": "6ac671192d3acac6e9fbafed",
+            "movieTitle": "Hành Trình Phương Nam",
+            "ticketsSold": 3,
+            "revenue": 285000.0
+          }
+        ],
+        "bookings": [
+          {
+            "bookingId": 3,
+            "bookingDate": "2026-10-07T23:19:39",
+            "customerId": 1,
+            "totalPrice": 95000.0,
+            "bookingStatus": "CONFIRMED",
+            "details": [
+              {
+                "showtimeId": "6ac671192d3acac6e9fbafee",
+                "movieId": "6ac671192d3acac6e9fbafed",
+                "movieTitle": "Hành Trình Phương Nam",
+                "roomName": "Room Test 1791389977",
+                "showtimeStart": "2026-10-14T19:00:00",
+                "seatCode": "A1",
+                "price": 95000.0
+              }
+            ]
+          },
+          {
+            "bookingId": 1,
+            "bookingDate": "2026-10-07T23:19:38",
+            "customerId": 1,
+            "totalPrice": 190000.0,
+            "bookingStatus": "CONFIRMED",
+            "details": [
+              {
+                "showtimeId": "6ac671192d3acac6e9fbafee",
+                "movieId": "6ac671192d3acac6e9fbafed",
+                "movieTitle": "Hành Trình Phương Nam",
+                "roomName": "Room Test 1791389977",
+                "showtimeStart": "2026-10-14T19:00:00",
+                "seatCode": "E5",
+                "price": 95000.0
+              },
+              {
+                "showtimeId": "6ac671192d3acac6e9fbafee",
+                "movieId": "6ac671192d3acac6e9fbafed",
+                "movieTitle": "Hành Trình Phương Nam",
+                "roomName": "Room Test 1791389977",
+                "showtimeStart": "2026-10-14T19:00:00",
+                "seatCode": "E6",
+                "price": 95000.0
+              }
+            ]
+          }
+        ]
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Report totals and exclusion",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "8.2 GET /api/bookings/report?startDate=2026-12-31&endDate=2026-01-01",
+      "method": "GET",
+      "status": 400,
+      "responseTimeMs": 10,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.955865",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "startDate must be before or equal to endDate",
+        "path": "/api/bookings/report"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "8.3 GET /api/bookings/report?startDate={{today}}&endDate={{today}}",
+      "method": "GET",
+      "status": 403,
+      "responseTimeMs": 3,
+      "body": {
+        "message": "Your role cannot access this endpoint",
+        "status": 403,
+        "path": "/api/bookings/report",
+        "error": "Forbidden",
+        "timestamp": "2026-10-07T23:19:38.969929"
+      },
+      "assertions": [
+        {
+          "name": "Status 403",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "8.4 GET /api/bookings/report?startDate={{today}}",
+      "method": "GET",
+      "status": 400,
+      "responseTimeMs": 8,
+      "body": {
+        "timestamp": "2026-10-07T23:19:38.986933",
+        "status": 400,
+        "error": "Bad Request",
+        "message": "Invalid request: Required request parameter 'endDate' for method parameter type LocalDate is not present",
+        "path": "/api/bookings/report"
+      },
+      "assertions": [
+        {
+          "name": "Status 400",
+          "passed": true
+        },
+        {
+          "name": "Unified JSON error",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "8.5 GET /api/bookings/report?startDate=2020-01-01&endDate=2020-01-31",
+      "method": "GET",
+      "status": 200,
+      "responseTimeMs": 11,
+      "body": {
+        "startDate": "2020-01-01",
+        "endDate": "2020-01-31",
+        "totalBookings": 0,
+        "totalTickets": 0,
+        "totalRevenue": 0,
+        "revenueByMovie": [],
+        "bookings": []
+      },
+      "assertions": [
+        {
+          "name": "Status 200",
+          "passed": true
+        },
+        {
+          "name": "Empty period",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

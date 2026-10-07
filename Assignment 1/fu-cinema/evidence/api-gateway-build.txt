@@ -1,0 +1,51 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.fudn:api-gateway >------------------------
+[INFO] Building api-gateway 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.5.0:clean (default-clean) @ api-gateway ---
+[INFO] Deleting /Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Assignment 1/fu-cinema/api-gateway/target
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ api-gateway ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ api-gateway ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ api-gateway ---
+[INFO] skip non existing resourceDirectory /Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Assignment 1/fu-cinema/api-gateway/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ api-gateway ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ api-gateway ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.fudn.gateway.UserHeaderFilterTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in com.fudn.gateway.UserHeaderFilterTests
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.5.0:jar (default-jar) @ api-gateway ---
+[INFO] Building jar: /Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Assignment 1/fu-cinema/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.0:repackage (repackage) @ api-gateway ---
+[INFO] Replacing main artifact /Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Assignment 1/fu-cinema/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Assignment 1/fu-cinema/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.228 s
+[INFO] Finished at: 2026-10-07T23:17:36+07:00
+[INFO] ------------------------------------------------------------------------

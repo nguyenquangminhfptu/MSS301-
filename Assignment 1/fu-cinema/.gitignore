@@ -1,0 +1,9 @@
+target/
+docker/
+.idea/
+*.iml
+.vscode/
+*.log
+.DS_Store
+.run/
+postman/run-environment.json

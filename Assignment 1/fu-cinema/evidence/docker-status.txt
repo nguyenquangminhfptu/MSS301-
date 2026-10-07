@@ -1,0 +1,5 @@
+NAME                    IMAGE                                        COMMAND                  SERVICE          CREATED         STATUS                     PORTS
+cinema-mongo            mongo:7.0.5                                  "docker-entrypoint.s…"   mongo            3 minutes ago   Up 3 minutes               127.0.0.1:27017->27017/tcp
+cinema-mysql            mysql:8.3.0                                  "docker-entrypoint.s…"   mysql            3 minutes ago   Up 3 minutes               127.0.0.1:3306->3306/tcp, 33060/tcp
+cinema-sqlserver        mcr.microsoft.com/mssql/server:2022-latest   "/opt/mssql/bin/laun…"   sqlserver        3 minutes ago   Up 3 minutes (healthy)     127.0.0.1:1433->1433/tcp
+cinema-sqlserver-init   mcr.microsoft.com/mssql/server:2022-latest   "/opt/mssql-tools18/…"   sqlserver-init   3 minutes ago   Exited (0) 3 minutes ago   

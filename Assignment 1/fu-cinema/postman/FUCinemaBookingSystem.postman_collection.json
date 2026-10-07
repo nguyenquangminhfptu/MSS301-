@@ -1,0 +1,3125 @@
+{
+  "info": {
+    "_postman_id": "5e092fbe-c0d3-4fbc-a159-e05260e08926",
+    "name": "FUCinemaBookingSystem",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Assignment 01 F1-F10. Run folders in order. Requires all four services and seeded databases. 3.6 targets Sci-fi because the reference seed Action genre has no movies."
+  },
+  "item": [
+    {
+      "name": "01-Auth",
+      "item": [
+        {
+          "name": "1.1 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@fucinema.com\",\n  \"password\": \"@@abc123@@\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "if(pm.response.code==200)pm.environment.set(\"adminToken\",pm.response.json().accessToken);",
+                  "pm.test(\"Role is ADMIN\",()=>pm.expect(pm.response.json().role).to.eql(\"ADMIN\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.2 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"an@gmail.com\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "if(pm.response.code==200)pm.environment.set(\"customerToken\",pm.response.json().accessToken);",
+                  "pm.test(\"Customer 1\",()=>{pm.expect(pm.response.json().userId).to.eql(1);pm.expect(pm.response.json().role).to.eql(\"CUSTOMER\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.3 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"an@gmail.com\",\n  \"password\": \"sai-mat-khau\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\",()=>pm.response.to.have.status(401));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.4 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"chi@gmail.com\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.5 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"abc\",\n  \"password\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.6 GET /api/customers/me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\",()=>pm.response.to.have.status(401));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.7 GET /api/customers/me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "abc.def.ghi",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\",()=>pm.response.to.have.status(401));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02-Customer",
+      "item": [
+        {
+          "name": "2.1 POST /api/customers/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Phạm Thị Dung\",\n  \"telephone\": \"0987654321\",\n  \"email\": \"{{newEmail}}\",\n  \"customerBirthday\": \"2004-03-15\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.environment.set(\"runId\",Date.now().toString());pm.environment.set(\"newEmail\",\"user\"+pm.environment.get(\"runId\")+\"@gmail.com\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"newCustomerId\",pm.response.json().customerId);",
+                  "pm.test(\"Active and password hidden\",()=>{const x=pm.response.json();pm.expect(x.customerStatus).to.eql(\"ACTIVE\");pm.expect(x).not.to.have.property(\"password\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.2 POST /api/customers/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Phạm Thị Dung\",\n  \"telephone\": \"0987654321\",\n  \"email\": \"an@gmail.com\",\n  \"customerBirthday\": \"2004-03-15\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.3 POST /api/customers/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"\",\n  \"telephone\": \"123\",\n  \"email\": \"x\",\n  \"customerBirthday\": \"2099-01-01\",\n  \"password\": \"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});",
+                  "[\"customerName\",\"telephone\",\"email\",\"customerBirthday\",\"password\"].forEach(f=>pm.test(\"Validation: \"+f,()=>pm.expect(pm.response.json().message).to.include(f)));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.4 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "if(pm.response.code==200)pm.environment.set(\"customer2Token\",pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.5 GET /api/customers/me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Own profile\",()=>pm.expect(pm.response.json().email).to.eql(\"an@gmail.com\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.6 PUT /api/customers/me",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Nguyễn Văn An (updated)\",\n  \"telephone\": \"0905999999\",\n  \"customerBirthday\": \"2002-05-10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Unicode preserved\",()=>pm.expect(pm.response.json().customerName).to.eql(\"Nguyễn Văn An (updated)\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.7 PUT /api/customers/me/password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/me/password",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"sai\",\n  \"newPassword\": \"654321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.8 PUT /api/customers/me/password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/me/password",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"123456\",\n  \"newPassword\": \"654321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\",()=>pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.9 POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/auth/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"654321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "if(pm.response.code==200)pm.environment.set(\"customer2Token\",pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.10 GET /api/customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.11 GET /api/customers?keyword=gmail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers?keyword=gmail",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.12 GET /api/customers/99999",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/99999",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.13 POST /api/customers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Phạm Thị Dung\",\n  \"telephone\": \"0987654321\",\n  \"email\": \"admincreated{{runId}}@gmail.com\",\n  \"customerBirthday\": \"2004-03-15\",\n  \"password\": \"123456\",\n  \"customerStatus\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"adminCreatedId\",pm.response.json().customerId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.14 PUT /api/customers/{{adminCreatedId}}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/{{adminCreatedId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerName\": \"Khách quản trị cập nhật\",\n  \"telephone\": \"0987654321\",\n  \"email\": \"admincreated{{runId}}@gmail.com\",\n  \"customerBirthday\": \"2004-03-15\",\n  \"customerStatus\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.15 DELETE /api/customers/{{adminCreatedId}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/customers/{{adminCreatedId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\",()=>pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.16 GET /api/customers/{{adminCreatedId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/{{adminCreatedId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Soft deleted\",()=>pm.expect(pm.response.json().customerStatus).to.eql(\"INACTIVE\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.17 GET /api/customers/me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.18 GET /api/customers/me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "2"
+              },
+              {
+                "key": "X-User-Role",
+                "value": "ADMIN"
+              }
+            ],
+            "url": "{{gateway}}/api/customers/me",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Spoofed header overwritten\",()=>pm.expect(pm.response.json().email).to.eql(\"an@gmail.com\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03-Genre-Room",
+      "item": [
+        {
+          "name": "3.1 GET /api/genres",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/genres",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Seed genres exist\",()=>pm.expect(pm.response.json().length).to.be.at.least(5));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.2 POST /api/genres",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/genres",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genreName\": \"Tài liệu {{$timestamp}}\",\n  \"description\": \"Phim tài liệu\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"genreId\",pm.response.json().genreId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.3 POST /api/genres",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/genres",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genreName\": \"Forbidden {{runId}}\",\n  \"description\": \"Phim tài liệu\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.4 POST /api/genres",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/genres",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genreName\": \"Hành động\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.5 PUT /api/genres/{{genreId}}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/genres/{{genreId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genreName\": \"Tài liệu {{$timestamp}}\",\n  \"description\": \"Đã cập nhật\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.6 DELETE /api/genres/{{seedGenreScifiId}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/genres/{{seedGenreScifiId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.7 POST /api/rooms",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/rooms",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomName\": \"Room Test {{$timestamp}}\",\n  \"roomType\": \"STANDARD\",\n  \"seatRows\": 5,\n  \"seatsPerRow\": 8,\n  \"roomStatus\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"roomId\",pm.response.json().roomId);",
+                  "pm.test(\"Room capacity\",()=>pm.expect(pm.response.json().totalSeats).to.eql(40));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.8 GET /api/rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/rooms",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\",()=>pm.response.to.have.status(401));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.9 POST /api/rooms",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/rooms",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomName\": \"X\",\n  \"roomType\": \"VIP\",\n  \"seatRows\": 0,\n  \"seatsPerRow\": 8,\n  \"roomStatus\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "3.10 POST /api/rooms",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/rooms",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomName\": \"Y\",\n  \"roomType\": \"IMAX\",\n  \"seatRows\": 0,\n  \"seatsPerRow\": 8,\n  \"roomStatus\": \"ACTIVE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04-Movie",
+      "item": [
+        {
+          "name": "4.1 POST /api/movies",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/movies",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hành Trình Phương Nam\",\n  \"description\": \"Phim tài liệu về miền Tây sông nước.\",\n  \"director\": \"Lê Hoàng\",\n  \"durationMinutes\": 120,\n  \"language\": \"Tiếng Việt\",\n  \"ageRating\": \"P\",\n  \"releaseDate\": \"2026-10-01\",\n  \"genreId\": \"{{genreId}}\",\n  \"movieStatus\": \"NOW_SHOWING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"movieId\",pm.response.json().movieId);",
+                  "pm.test(\"ObjectId and genre join\",()=>{const x=pm.response.json();pm.expect(x.movieId).to.match(/^[0-9a-f]{24}$/);pm.expect(x.genreId).to.eql(pm.environment.get(\"genreId\"));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.2 GET /api/movies?keyword=galaxy",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/movies?keyword=galaxy",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Galaxy found\",()=>pm.expect(pm.response.json().some(x=>x.title===\"Galaxy Rangers\")).to.be.true);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.3 GET /api/movies?status=NOW_SHOWING&genreId={{seedGenreScifiId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/movies?status=NOW_SHOWING&genreId={{seedGenreScifiId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Movie filters\",()=>{const a=pm.response.json();pm.expect(a.length).to.be.at.least(1);a.forEach(x=>{pm.expect(x.movieStatus).to.eql(\"NOW_SHOWING\");pm.expect(x.genreId).to.eql(pm.environment.get(\"seedGenreScifiId\"));});});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.4 PUT /api/movies/{{movieId}}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/movies/{{movieId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hành Trình Phương Nam\",\n  \"description\": \"Phim tài liệu về miền Tây sông nước.\",\n  \"director\": \"Lê Hoàng\",\n  \"durationMinutes\": 120,\n  \"language\": \"Tiếng Việt\",\n  \"ageRating\": \"P\",\n  \"releaseDate\": \"2026-10-01\",\n  \"genreId\": \"{{genreId}}\",\n  \"movieStatus\": \"NOW_SHOWING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.5 GET /api/movies/{{notFoundId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/movies/{{notFoundId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.6 POST /api/movies",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/movies",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hành Trình Phương Nam\",\n  \"description\": \"Phim tài liệu về miền Tây sông nước.\",\n  \"director\": \"Lê Hoàng\",\n  \"durationMinutes\": 10,\n  \"language\": \"Tiếng Việt\",\n  \"ageRating\": \"P\",\n  \"releaseDate\": \"2026-10-01\",\n  \"genreId\": \"{{genreId}}\",\n  \"movieStatus\": \"NOW_SHOWING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.7 POST /api/movies",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/movies",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Hành Trình Phương Nam\",\n  \"description\": \"Phim tài liệu về miền Tây sông nước.\",\n  \"director\": \"Lê Hoàng\",\n  \"durationMinutes\": 120,\n  \"language\": \"Tiếng Việt\",\n  \"ageRating\": \"P\",\n  \"releaseDate\": \"2026-10-01\",\n  \"genreId\": \"{{notFoundId}}\",\n  \"movieStatus\": \"NOW_SHOWING\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "4.8 DELETE /api/genres/{{genreId}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/genres/{{genreId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05-Showtime",
+      "item": [
+        {
+          "name": "5.1 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"roomId\": \"{{roomId}}\",\n  \"startTime\": \"{{futureStart}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d=new Date();const pad=n=>String(n).padStart(2,\"0\");const date=x=>`${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;pm.environment.set(\"today\",date(d));d.setDate(d.getDate()+7);pm.environment.set(\"futureDate\",date(d));pm.environment.set(\"futureStart\",date(d)+\"T19:00:00\");pm.environment.set(\"futureStartOverlap\",date(d)+\"T20:00:00\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"showtimeId\",pm.response.json().showtimeId);",
+                  "pm.test(\"Computed end time\",()=>{const x=pm.response.json();pm.expect((new Date(x.endTime)-new Date(x.startTime))/60000).to.eql(120);pm.expect(x.showtimeStatus).to.eql(\"SCHEDULED\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.2 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"roomId\": \"{{roomId}}\",\n  \"startTime\": \"{{futureStartOverlap}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.3 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"roomId\": \"{{seedRoom2Id}}\",\n  \"startTime\": \"{{futureStart}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"showtime2Id\",pm.response.json().showtimeId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.4 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{seedMovieEndedId}}\",\n  \"roomId\": \"{{roomId}}\",\n  \"startTime\": \"{{futureStart}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.5 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"roomId\": \"{{seedRoomMaintenanceId}}\",\n  \"startTime\": \"{{futureStart}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.6 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{movieId}}\",\n  \"roomId\": \"{{roomId}}\",\n  \"startTime\": \"2020-01-01T10:00:00\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.7 GET /api/showtimes?movieId={{movieId}}&date={{futureDate}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/showtimes?movieId={{movieId}}&date={{futureDate}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Showtime filters\",()=>{const a=pm.response.json();pm.expect(a.length).to.eql(2);a.forEach(x=>{pm.expect(x.movieId).to.eql(pm.environment.get(\"movieId\"));pm.expect(x.startTime.slice(0,10)).to.eql(pm.environment.get(\"futureDate\"));});});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.8 GET /api/showtimes/{{showtimeId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/showtimes/{{showtimeId}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Seat layout\",()=>{const x=pm.response.json();pm.expect(x.seatRows).to.eql(5);pm.expect(x.seatsPerRow).to.eql(8);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.9 DELETE /api/showtimes/{{showtime2Id}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/showtimes/{{showtime2Id}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\",()=>pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.10 GET /api/showtimes/{{showtime2Id}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/showtimes/{{showtime2Id}}",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Showtime cancelled\",()=>pm.expect(pm.response.json().showtimeStatus).to.eql(\"CANCELLED\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.11 DELETE /api/rooms/{{roomId}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/rooms/{{roomId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.12 DELETE /api/movies/{{movieId}}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{gateway}}/api/movies/{{movieId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "5.13 POST /api/showtimes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/showtimes",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"movieId\": \"{{notFoundId}}\",\n  \"roomId\": \"{{roomId}}\",\n  \"startTime\": \"{{futureStart}}\",\n  \"ticketPrice\": 95000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06-Booking",
+      "item": [
+        {
+          "name": "6.1 GET /api/bookings/showtimes/{{showtimeId}}/seats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/showtimes/{{showtimeId}}/seats",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"All 40 seats available\",()=>{const x=pm.response.json();pm.expect(x.totalSeats).to.eql(40);pm.expect(x.availableSeats).to.eql(40);pm.expect(x.bookedSeats).to.be.empty;});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.2 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E5\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E6\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"bookingId\",pm.response.json().bookingId);",
+                  "pm.test(\"Server price and snapshot\",()=>{const x=pm.response.json();pm.expect(x.details.length).to.eql(2);pm.expect(x.totalPrice).to.eql(190000);pm.expect(x.totalPrice).to.eql(x.details.reduce((a,b)=>a+b.price,0));pm.expect(x.details[0].movieTitle).to.eql(\"Hành Trình Phương Nam\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.3 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E5\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\",()=>pm.response.to.have.status(409));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.4 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E9\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.5 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"F1\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.6 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A2\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A2\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.7 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{notFoundId}}\",\n      \"seatCode\": \"A2\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.8 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtime2Id}}\",\n      \"seatCode\": \"A2\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.9 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A1\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A2\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A3\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A4\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A5\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A6\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A7\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A8\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"B1\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.10 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.11 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E5\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E6\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.12 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E5\"\n    },\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"E6\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 401\",()=>pm.response.to.have.status(401));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.13 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A1\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"booking2Id\",pm.response.json().bookingId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "6.14 GET /api/bookings/showtimes/{{showtimeId}}/seats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/showtimes/{{showtimeId}}/seats",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Seats reserved\",()=>{const x=pm.response.json();pm.expect(x.bookedSeats).to.have.members([\"A1\",\"E5\",\"E6\"]);pm.expect(x.availableSeats).to.eql(37);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07-History-Cancel",
+      "item": [
+        {
+          "name": "7.1 GET /api/bookings/my",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/my",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Own history in descending order\",()=>{const a=pm.response.json();a.forEach(x=>pm.expect(x.customerId).to.eql(1));for(let i=1;i<a.length;i++)pm.expect(a[i-1].bookingDate>=a[i].bookingDate).to.be.true;});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.2 GET /api/bookings/{{bookingId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/{{bookingId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.3 GET /api/bookings/{{bookingId}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/{{bookingId}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.4 PUT /api/bookings/{{booking2Id}}/cancel",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/{{booking2Id}}/cancel",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.5 PUT /api/bookings/{{booking2Id}}/cancel",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/{{booking2Id}}/cancel",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Booking cancelled\",()=>pm.expect(pm.response.json().bookingStatus).to.eql(\"CANCELLED\"));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.6 PUT /api/bookings/{{booking2Id}}/cancel",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/{{booking2Id}}/cancel",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.7 POST /api/bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"showtimeId\": \"{{showtimeId}}\",\n      \"seatCode\": \"A1\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\",()=>pm.response.to.have.status(201));",
+                  "if(pm.response.code==201)pm.environment.set(\"booking3Id\",pm.response.json().bookingId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.8 GET /api/bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.9 GET /api/bookings/my",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/my",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "7.10 GET /api/bookings/99999",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/99999",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\",()=>pm.response.to.have.status(404));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08-Report",
+      "item": [
+        {
+          "name": "8.1 GET /api/bookings/report?startDate={{today}}&endDate={{today}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/report?startDate={{today}}&endDate={{today}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d=new Date();const pad=n=>String(n).padStart(2,\"0\");const date=x=>`${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;pm.environment.set(\"today\",date(d));d.setDate(d.getDate()+7);pm.environment.set(\"futureDate\",date(d));pm.environment.set(\"futureStart\",date(d)+\"T19:00:00\");pm.environment.set(\"futureStartOverlap\",date(d)+\"T20:00:00\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Report totals and exclusion\",()=>{const r=pm.response.json();pm.expect(r.totalBookings).to.eql(r.bookings.length);pm.expect(r.totalTickets).to.eql(r.bookings.reduce((a,b)=>a+b.details.length,0));pm.expect(r.totalRevenue).to.eql(r.bookings.reduce((a,b)=>a+b.totalPrice,0));r.bookings.forEach(b=>pm.expect(b.bookingStatus).to.eql(\"CONFIRMED\"));pm.expect(r.bookings.map(b=>b.bookingId)).not.to.include(Number(pm.environment.get(\"booking2Id\")));for(let i=1;i<r.bookings.length;i++)pm.expect(r.bookings[i-1].bookingDate>=r.bookings[i].bookingDate).to.be.true;for(let i=1;i<r.revenueByMovie.length;i++)pm.expect(r.revenueByMovie[i-1].revenue).to.be.at.least(r.revenueByMovie[i].revenue);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8.2 GET /api/bookings/report?startDate=2026-12-31&endDate=2026-01-01",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/report?startDate=2026-12-31&endDate=2026-01-01",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8.3 GET /api/bookings/report?startDate={{today}}&endDate={{today}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/report?startDate={{today}}&endDate={{today}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 403\",()=>pm.response.to.have.status(403));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8.4 GET /api/bookings/report?startDate={{today}}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/report?startDate={{today}}",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\",()=>pm.response.to.have.status(400));",
+                  "pm.test(\"Unified JSON error\",()=>{const e=pm.response.json();pm.expect(e).to.have.all.keys(\"timestamp\",\"status\",\"error\",\"message\",\"path\");pm.expect(e.status).to.eql(pm.response.code);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "8.5 GET /api/bookings/report?startDate=2020-01-01&endDate=2020-01-31",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{gateway}}/api/bookings/report?startDate=2020-01-01&endDate=2020-01-31",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\",()=>pm.response.to.have.status(200));",
+                  "pm.test(\"Empty period\",()=>{const r=pm.response.json();pm.expect(r.totalBookings).to.eql(0);pm.expect(r.totalRevenue).to.eql(0);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

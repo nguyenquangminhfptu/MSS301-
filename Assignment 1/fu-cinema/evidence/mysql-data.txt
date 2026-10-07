@@ -1,0 +1,13 @@
+booking_id	booking_status	showtime_id	seat_code	movie_title
+1	CONFIRMED	6ac671192d3acac6e9fbafee	E5	Hành Trình Phương Nam
+1	CONFIRMED	6ac671192d3acac6e9fbafee	E6	Hành Trình Phương Nam
+2	CANCELLED	6ac671192d3acac6e9fbafee	A1	Hành Trình Phương Nam
+3	CONFIRMED	6ac671192d3acac6e9fbafee	A1	Hành Trình Phương Nam
+4	CANCELLED	6ac671192d3acac6e9fbafee	B3	Hành Trình Phương Nam
+6	CANCELLED	6ac6715d2d3acac6e9fbaff0	B4	Hành Trình Phương Nam
+7	CANCELLED	6ac6715d2d3acac6e9fbaff1	A8	Galaxy Rangers
+version	description	success
+1	init	1
+2	seat reservations	1
+Table	Create Table
+seat_reservation	CREATE TABLE `seat_reservation` (\n  `showtime_id` varchar(24) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `seat_code` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,\n  `booking_id` bigint NOT NULL,\n  PRIMARY KEY (`showtime_id`,`seat_code`),\n  KEY `idx_reservation_booking` (`booking_id`),\n  CONSTRAINT `fk_reservation_booking` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`booking_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
