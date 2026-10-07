@@ -51,6 +51,12 @@ public class BookingController {
     }
 
     // ADMIN
+    @GetMapping("/report")
+    public ReportResponse report(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return bookingService.report(startDate, endDate);
+    }
 
     // Owner hoac ADMIN
     @GetMapping("/{id}")
