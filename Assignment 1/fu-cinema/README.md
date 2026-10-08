@@ -86,6 +86,8 @@ Verification on **7 October 2026**, Asia/Ho_Chi_Minh:
 
 The figures render the actual recorded build, API, database, and Git output. Full evidence is in `evidence/aggregate-build.txt`, `evidence/newman-cli.txt`, `evidence/newman-summary.json`, `evidence/extra-checks.json`, and the database output files. The accompanying Vietnamese Word report provides a result and a real commit reference for every TODO.
 
+For the instructor's screenshot requirements, follow [the Vietnamese capture guide](docs/Huong-dan-chup-anh-va-hoan-thien-bao-cao.md). It maps all 54 TODOs to code, database, or runtime screenshots, identifies the Postman requests to capture, and explains the manual Movie Service outage integration check. The current output figures are not Postman Desktop screenshots; capture the Desktop Runner and request results, add them to the report and README, and update the Word table of contents before final submission.
+
 ## Implementation notes
 
 Each service follows Controller–Service–Repository and uses validated record DTOs and a unified JSON error body. Movie queries use MongoTemplate criteria and application-side joins. Showtime overlap checks use strict interval boundaries, permitting back-to-back screenings. Booking uses OpenFeign to validate showtimes, computes prices on the server, and snapshots movie/room data.
