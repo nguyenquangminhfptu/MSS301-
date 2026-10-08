@@ -1,0 +1,278 @@
+{
+  "info": {
+    "name": "Order Service",
+    "description": "8 test cases matching the Part 1 tutorial. Select order-service-local environment. A run inserts four orders; existing rows are preserved.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Create Order - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skuCode\": \"iphone_15\",\n  \"price\": 1000,\n  \"quantity\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Response body is correct message\", () => pm.expect(pm.response.text()).to.eql(\"Order Placed Successfully\"));",
+              "pm.test(\"Content-Type is text/plain\", () => pm.expect(pm.response.headers.get(\"Content-Type\").split(\";\")[0]).to.eql(\"text/plain\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Create Order - Decimal Price and Quantity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skuCode\": \"pixel_8\",\n  \"price\": 899.99,\n  \"quantity\": 5\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Response body is correct message\", () => pm.expect(pm.response.text()).to.eql(\"Order Placed Successfully\"));",
+              "pm.test(\"Content-Type is text/plain\", () => pm.expect(pm.response.headers.get(\"Content-Type\").split(\";\")[0]).to.eql(\"text/plain\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Create Order - Missing skuCode",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 1000,\n  \"quantity\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Records current Part 1 behavior: no validation, so null fields are accepted and persisted."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Response body is correct message\", () => pm.expect(pm.response.text()).to.eql(\"Order Placed Successfully\"));",
+              "pm.test(\"Content-Type is text/plain\", () => pm.expect(pm.response.headers.get(\"Content-Type\").split(\";\")[0]).to.eql(\"text/plain\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Create Order - Invalid Quantity Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skuCode\": \"galaxy_24\",\n  \"price\": 1000,\n  \"quantity\": \"abc\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Create Order - Missing Content-Type",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": true
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skuCode\": \"iphone_15\",\n  \"price\": 1000,\n  \"quantity\": 1\n}"
+        },
+        "description": "Content-Type is disabled explicitly and via disabledSystemHeaders to prevent Postman/Newman from inserting text/plain. Expected 415."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 415\", () => pm.response.to.have.status(415));",
+              "pm.test(\"No active Content-Type header\", () => pm.expect(pm.request.headers.all().filter(h => !h.disabled && h.key.toLowerCase() === \"content-type\")).to.have.lengthOf(0));"
+            ]
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      }
+    },
+    {
+      "name": "06 Create Order - Empty JSON Object",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/order",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Records current Part 1 behavior: no validation, so null fields are accepted and persisted."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Response body is correct message\", () => pm.expect(pm.response.text()).to.eql(\"Order Placed Successfully\"));",
+              "pm.test(\"Content-Type is text/plain\", () => pm.expect(pm.response.headers.get(\"Content-Type\").split(\";\")[0]).to.eql(\"text/plain\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Order - Wrong Method",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{order_base_url}}/api/order"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 405\", () => pm.response.to.have.status(405));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Order - Wrong Path",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "disabled": false
+          }
+        ],
+        "url": "{{order_base_url}}/api/orders",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"skuCode\": \"iphone_15\",\n  \"price\": 1000,\n  \"quantity\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
