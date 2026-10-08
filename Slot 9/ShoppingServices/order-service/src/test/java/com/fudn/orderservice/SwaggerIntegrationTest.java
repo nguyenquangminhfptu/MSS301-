@@ -43,6 +43,8 @@ class SwaggerIntegrationTest {
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
                 .andExpect(jsonPath("$.info.title").value("Order Service API"))
                 .andExpect(jsonPath("$.info.version").value("v0.0.1"))
+                .andExpect(jsonPath("$.servers[0].url").value("/"))
+                .andExpect(jsonPath("$.components.securitySchemes.bearerAuth.scheme").value("bearer"))
                 .andExpect(jsonPath("$.paths['/api/order'].post").exists());
     }
 
