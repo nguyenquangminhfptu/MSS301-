@@ -1,0 +1,77 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Inventory Service API",
+    "description": "This is the REST API for Inventory Service",
+    "license": {
+      "name": "Apache 2.0"
+    },
+    "version": "v0.0.1"
+  },
+  "externalDocs": {
+    "description": "Inventory Service Wiki Documentation",
+    "url": "https://fudn-inventory-service-dummy-url.com/docs"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Current host: API gateway or direct service"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/inventory": {
+      "get": {
+        "tags": [
+          "inventory-controller"
+        ],
+        "operationId": "isInStock",
+        "parameters": [
+          {
+            "name": "skuCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "Keycloak access token; required when calling through the gateway",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

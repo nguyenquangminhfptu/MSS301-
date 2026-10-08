@@ -1,0 +1,98 @@
+{
+  "product-service": [
+    {
+      "name": "com.fudn.product_service.ProductCrudIntegrationTests",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.254"
+    },
+    {
+      "name": "com.fudn.product_service.ProductServiceApplicationTests",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.195"
+    },
+    {
+      "name": "com.fudn.product_service.SwaggerIntegrationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.315"
+    },
+    {
+      "name": "com.fudn.product_service.grading.ProductUpdateDeleteGradingTests",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "5.365"
+    }
+  ],
+  "inventory-service": [
+    {
+      "name": "com.fudn.inventoryservice.InventoryServiceApplicationTests",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "10.199"
+    },
+    {
+      "name": "com.fudn.inventoryservice.SwaggerIntegrationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "11.838"
+    }
+  ],
+  "order-service": [
+    {
+      "name": "com.fudn.orderservice.OrderServiceApplicationTests",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "12.571"
+    },
+    {
+      "name": "com.fudn.orderservice.SwaggerIntegrationTest",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "16.689"
+    }
+  ],
+  "api-gateway": [
+    {
+      "name": "com.fudn.gateway.ApiGatewayApplicationTests",
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.409"
+    },
+    {
+      "name": "com.fudn.gateway.ApiGatewaySecurityTests",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.105"
+    },
+    {
+      "name": "com.fudn.gateway.SwaggerSecurityTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "3.439"
+    }
+  ]
+}

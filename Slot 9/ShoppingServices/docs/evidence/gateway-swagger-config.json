@@ -1,0 +1,20 @@
+{
+  "configUrl": "/v3/api-docs/swagger-config",
+  "oauth2RedirectUrl": "http://localhost:9000/swagger-ui/oauth2-redirect.html",
+  "urls": [
+    {
+      "url": "/aggregate/inventory-service/v3/api-docs",
+      "name": "Inventory Service"
+    },
+    {
+      "url": "/aggregate/order-service/v3/api-docs",
+      "name": "Order Service"
+    },
+    {
+      "url": "/aggregate/product-service/v3/api-docs",
+      "name": "Product Service"
+    }
+  ],
+  "urls.primaryName": "Product Service",
+  "validatorUrl": ""
+}

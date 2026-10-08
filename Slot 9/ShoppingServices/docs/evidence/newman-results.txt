@@ -1,0 +1,145 @@
+newman
+
+MSS301 Slot 9 - Swagger integration
+
+→ 01 - Keycloak demo token
+  POST http://localhost:8181/realms/spring-microservices-realm/protocol/openid-connect/token [200 OK, 2.41kB, 702ms]
+  ✓  HTTP 200
+  ✓  JWT received
+
+→ Product - direct Swagger UI
+  GET http://localhost:8080/swagger-ui.html [200 OK, 1.04kB, 59ms]
+  ✓  HTTP 200
+  ✓  Swagger HTML
+
+→ Product - direct OpenAPI JSON
+  GET http://localhost:8080/api-docs [200 OK, 2.66kB, 7ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Product - aggregate OpenAPI JSON
+  GET http://localhost:9000/aggregate/product-service/v3/api-docs [200 OK, 2.92kB, 119ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Inventory - direct Swagger UI
+  GET http://localhost:8082/swagger-ui.html [200 OK, 1.04kB, 62ms]
+  ✓  HTTP 200
+  ✓  Swagger HTML
+
+→ Inventory - direct OpenAPI JSON
+  GET http://localhost:8082/api-docs [200 OK, 1.21kB, 13ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Inventory - aggregate OpenAPI JSON
+  GET http://localhost:9000/aggregate/inventory-service/v3/api-docs [200 OK, 1.47kB, 11ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Order - direct Swagger UI
+  GET http://localhost:8081/swagger-ui.html [200 OK, 1.04kB, 49ms]
+  ✓  HTTP 200
+  ✓  Swagger HTML
+
+→ Order - direct OpenAPI JSON
+  GET http://localhost:8081/api-docs [200 OK, 1.33kB, 11ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Order - aggregate OpenAPI JSON
+  GET http://localhost:9000/aggregate/order-service/v3/api-docs [200 OK, 1.59kB, 10ms]
+  ✓  HTTP 200
+  ✓  Required metadata
+  ✓  Real API path
+  ✓  Gateway compatible JWT UI
+
+→ Gateway - public Swagger UI
+  GET http://localhost:9000/swagger-ui.html [200 OK, 1.1kB, 24ms]
+  ✓  HTTP 200
+  ✓  Swagger HTML
+
+→ Gateway - dropdown lists three specs
+  GET http://localhost:9000/v3/api-docs/swagger-config [200 OK, 821B, 5ms]
+  ✓  HTTP 200
+  ✓  Three services
+
+→ Gateway - anonymous /api/products
+  GET http://localhost:9000/api/products [401 Unauthorized, 497B, 6ms]
+  ✓  HTTP 401
+
+→ Gateway - anonymous /api/order
+  GET http://localhost:9000/api/order [401 Unauthorized, 497B, 3ms]
+  ✓  HTTP 401
+
+→ Gateway - anonymous /api/inventory
+  GET http://localhost:9000/api/inventory [401 Unauthorized, 497B, 3ms]
+  ✓  HTTP 401
+
+→ Gateway - invalid JWT
+  GET http://localhost:9000/api/products [401 Unauthorized, 672B, 184ms]
+  ✓  HTTP 401
+
+→ Gateway - CRUD CORS preflight
+  OPTIONS http://localhost:9000/api/products [200 OK, 532B, 3ms]
+  ✓  HTTP 200
+  ✓  CORS permits PUT
+
+→ Gateway JWT - create product
+  POST http://localhost:9000/api/products [201 Created, 633B, 272ms]
+  ✓  HTTP 201
+  ✓  Product created
+
+→ Gateway JWT - list products
+  GET http://localhost:9000/api/products [200 OK, 630B, 36ms]
+  ✓  HTTP 200
+  ✓  Created product is listed
+
+→ Gateway JWT - update product
+  PUT http://localhost:9000/api/products/6ac7a95a770d47b0e848a945 [200 OK, 610B, 25ms]
+  ✓  HTTP 200
+  ✓  Product updated
+
+→ Gateway JWT - inventory
+  GET http://localhost:9000/api/inventory?skuCode=iphone_15&quantity=1 [200 OK, 516B, 143ms]
+  ✓  HTTP 200
+  ✓  Item is in stock
+
+→ Gateway JWT - place order via Feign
+  POST http://localhost:9000/api/order [201 Created, 542B, 166ms]
+  ✓  HTTP 201
+  ✓  Order placed
+
+→ Gateway JWT - delete demo product
+  DELETE http://localhost:9000/api/products/6ac7a95a770d47b0e848a945 [204 No Content, 460B, 41ms]
+  ✓  HTTP 204
+
+┌─────────────────────────┬───────────────────┬───────────────────┐
+│                         │          executed │            failed │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              iterations │                 1 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│                requests │                23 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│            test-scripts │                23 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│      prerequest-scripts │                 0 │                 0 │
+├─────────────────────────┼───────────────────┼───────────────────┤
+│              assertions │                53 │                 0 │
+├─────────────────────────┴───────────────────┴───────────────────┤
+│ total run duration: 2.2s                                        │
+├─────────────────────────────────────────────────────────────────┤
+│ total data received: 14.72kB (approx)                           │
+├─────────────────────────────────────────────────────────────────┤
+│ average response time: 84ms [min: 3ms, max: 702ms, s.d.: 149ms] │
+└─────────────────────────────────────────────────────────────────┘
