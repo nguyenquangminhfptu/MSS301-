@@ -1,0 +1,632 @@
+{
+  "info": {
+    "name": "MSS301 Slot 9 - Swagger integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Part 5 docs, JWT security and Part 1-4 regression on the local Slot 9 stack. Creates one order and removes its own demo product."
+  },
+  "item": [
+    {
+      "name": "01 - Keycloak demo token",
+      "request": {
+        "method": "POST",
+        "url": "{{keycloak}}/realms/spring-microservices-realm/protocol/openid-connect/token",
+        "header": [],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "password",
+              "type": "text"
+            },
+            {
+              "key": "client_id",
+              "value": "shopping-swagger",
+              "type": "text"
+            },
+            {
+              "key": "username",
+              "value": "student",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "demo-local-123",
+              "type": "text"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const token = pm.response.json().access_token;",
+              "pm.test(\"JWT received\", () => pm.expect(token).to.be.a(\"string\").and.not.empty);",
+              "pm.environment.set(\"access_token\", token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product - direct Swagger UI",
+      "request": {
+        "method": "GET",
+        "url": "{{product}}/swagger-ui.html",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Swagger HTML\", () => pm.expect(pm.response.text()).to.include(\"Swagger UI\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product - direct OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{product}}/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Product Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/products\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product - aggregate OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/aggregate/product-service/v3/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Product Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/products\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory - direct Swagger UI",
+      "request": {
+        "method": "GET",
+        "url": "{{inventory}}/swagger-ui.html",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Swagger HTML\", () => pm.expect(pm.response.text()).to.include(\"Swagger UI\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory - direct OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{inventory}}/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Inventory Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/inventory\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory - aggregate OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/aggregate/inventory-service/v3/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Inventory Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/inventory\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order - direct Swagger UI",
+      "request": {
+        "method": "GET",
+        "url": "{{order}}/swagger-ui.html",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Swagger HTML\", () => pm.expect(pm.response.text()).to.include(\"Swagger UI\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order - direct OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{order}}/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Order Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/order\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order - aggregate OpenAPI JSON",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/aggregate/order-service/v3/api-docs",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const spec = pm.response.json();",
+              "pm.test(\"Required metadata\", () => { pm.expect(spec.info.title).to.eql(\"Order Service API\"); pm.expect(spec.info.version).to.eql(\"v0.0.1\"); });",
+              "pm.test(\"Real API path\", () => pm.expect(spec.paths).to.have.property(\"/api/order\"));",
+              "pm.test(\"Gateway compatible JWT UI\", () => { pm.expect(spec.servers[0].url).to.eql(\"/\"); pm.expect(spec.components.securitySchemes.bearerAuth.scheme).to.eql(\"bearer\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - public Swagger UI",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/swagger-ui.html",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Swagger HTML\", () => pm.expect(pm.response.text()).to.include(\"Swagger UI\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - dropdown lists three specs",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/v3/api-docs/swagger-config",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const urls = pm.response.json().urls;",
+              "pm.test(\"Three services\", () => pm.expect(urls.map(u => u.name)).to.have.members([\"Product Service\", \"Order Service\", \"Inventory Service\"]));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - anonymous /api/products",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/products",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - anonymous /api/order",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/order",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - anonymous /api/inventory",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/inventory",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - invalid JWT",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/products",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer invalid.demo.token"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway - CRUD CORS preflight",
+      "request": {
+        "method": "OPTIONS",
+        "url": "{{gateway}}/api/products",
+        "header": [
+          {
+            "key": "Origin",
+            "value": "http://localhost:8080"
+          },
+          {
+            "key": "Access-Control-Request-Method",
+            "value": "PUT"
+          },
+          {
+            "key": "Access-Control-Request-Headers",
+            "value": "authorization,content-type"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"CORS permits PUT\", () => pm.expect(pm.response.headers.get(\"Access-Control-Allow-Methods\")).to.include(\"PUT\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - create product",
+      "request": {
+        "method": "POST",
+        "url": "{{gateway}}/api/products",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Slot 9 Swagger Demo\", \"description\": \"Integration verification\", \"price\": 99.5}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "const product = pm.response.json();",
+              "pm.test(\"Product created\", () => pm.expect(product.id).to.be.a(\"string\").and.not.empty);",
+              "pm.environment.set(\"product_id\", product.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - list products",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/products",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Created product is listed\", () => pm.expect(pm.response.json().some(p => p.id === pm.environment.get(\"product_id\"))).to.eql(true));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - update product",
+      "request": {
+        "method": "PUT",
+        "url": "{{gateway}}/api/products/{{product_id}}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Slot 9 Updated\", \"description\": \"Swagger CRUD\", \"price\": 100}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Product updated\", () => pm.expect(pm.response.json().name).to.eql(\"Slot 9 Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - inventory",
+      "request": {
+        "method": "GET",
+        "url": "{{gateway}}/api/inventory?skuCode=iphone_15&quantity=1",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Item is in stock\", () => pm.expect(pm.response.json()).to.eql(true));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - place order via Feign",
+      "request": {
+        "method": "POST",
+        "url": "{{gateway}}/api/order",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"skuCode\": \"iphone_15\", \"price\": 1000, \"quantity\": 1}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Order placed\", () => pm.expect(pm.response.text()).to.eql(\"Order Placed Successfully\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateway JWT - delete demo product",
+      "request": {
+        "method": "DELETE",
+        "url": "{{gateway}}/api/products/{{product_id}}",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
