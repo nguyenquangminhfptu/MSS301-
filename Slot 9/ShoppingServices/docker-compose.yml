@@ -1,0 +1,46 @@
+name: mss301-slot9
+services:
+  mongodb:
+    image: mongo:7.0.5
+    ports:
+      - "127.0.0.1:27029:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  mysql:
+    image: mysql:8.3.0
+    ports:
+      - "127.0.0.1:3339:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./order-service/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD -D order_service -e 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - "127.0.0.1:8181:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./keycloak/shopping-realm.json:/opt/keycloak/data/import/shopping-realm.json:ro
+volumes:
+  mongo-data:
+  mysql-data:
+  keycloak-data:

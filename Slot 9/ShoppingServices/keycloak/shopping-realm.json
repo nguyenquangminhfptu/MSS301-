@@ -1,0 +1,33 @@
+{
+  "realm": "spring-microservices-realm",
+  "enabled": true,
+  "sslRequired": "none",
+  "clients": [
+    {
+      "clientId": "shopping-swagger",
+      "name": "Slot 9 local Swagger demo",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false,
+      "protocol": "openid-connect"
+    }
+  ],
+  "users": [
+    {
+      "username": "student",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Nguyen Quang",
+      "lastName": "Minh",
+      "email": "de190270@example.test",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-local-123",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
