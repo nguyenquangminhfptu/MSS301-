@@ -20,6 +20,18 @@
     </properties>
 
     <dependencies>
+        <!-- DOC-13: Springdoc aligned with this service's Spring Boot version. -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
         <!-- Actuator: /actuator/health, metrics -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
