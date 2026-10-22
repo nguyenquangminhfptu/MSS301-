@@ -4,12 +4,11 @@ services:
   # ---------- order-service DB ----------
   mysql:
     image: mysql:8.4
-    # container_name: saga-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: orderdb
     ports:
-      - "3307:3306"            # host 3307 để không đụng MySQL cài sẵn trên máy
+      - "127.0.0.1:3307:3306"            # host 3307 để không đụng MySQL cài sẵn trên máy
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
@@ -22,13 +21,12 @@ services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     platform: linux/amd64
-    # container_name: saga-sqlserver
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "Saga@12345"   # phải đủ mạnh: chữ hoa, thường, số, ký tự đặc biệt
       MSSQL_PID: "Developer"
     ports:
-      - "14330:1433"           # host 14330 để không đụng SQL Server cài sẵn trên máy
+      - "127.0.0.1:14330:1433"           # host 14330 để không đụng SQL Server cài sẵn trên máy
     volumes:
       - mssql-data:/var/opt/mssql
     healthcheck:
@@ -42,10 +40,9 @@ services:
   # ---------- inventory-service DB ----------
   mongodb:
     image: mongo:8.0
-    # container_name: saga-mongodb
     command: ["--replSet", "rs0", "--bind_ip_all"]   # transaction trong MongoDB cần replica set
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     volumes:
       - mongo-data:/data/db
     healthcheck:
@@ -55,6 +52,65 @@ services:
       timeout: 10s
       retries: 30
       start_period: 10s
+
+  inventory-service:
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8082/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    build: ./inventory-service
+    ports:
+      - "127.0.0.1:8082:8082"
+    environment:
+      MONGO_URI: mongodb://mongodb:27017/inventorydb?directConnection=true
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  payment-service:
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8083/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    build: ./payment-service
+    ports:
+      - "127.0.0.1:8083:8083"
+    environment:
+      DB_URL: jdbc:sqlserver://sqlserver:1433;databaseName=paymentdb;encrypt=true;trustServerCertificate=true
+      DB_USER: sa
+      DB_PASSWORD: Saga@12345
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+  order-service:
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8081/actuator/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    build: ./order-service
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/orderdb?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      DB_PASSWORD: root
+      INVENTORY_URL: http://inventory-service:8082
+      PAYMENT_URL: http://payment-service:8083
+      PAYMENT_DELAY_MS: ${PAYMENT_DELAY_MS:-0}      # chỉ dùng cho KB8
+    depends_on:
+      mysql:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+      payment-service:
+        condition: service_healthy
 
 volumes:
   mysql-data:
