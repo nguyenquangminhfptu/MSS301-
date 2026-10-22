@@ -1,6 +1,7 @@
 package com.mss301.inventory.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,4 +13,5 @@ public class Reservation {
     private String productId;
     private int quantity;
     private ReservationStatus status;   // MongoDB lưu enum dạng chuỗi
+    @Version private Long version;
 }
