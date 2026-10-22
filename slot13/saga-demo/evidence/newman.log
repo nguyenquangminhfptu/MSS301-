@@ -1,0 +1,355 @@
+
+> mss301-slot13-saga-tests@1.0.0 test
+> newman run postman/Saga.postman_collection.json -e postman/Saga-local.postman_environment.json --reporters cli,json,junit --reporter-json-export evidence/newman.json --reporter-junit-export evidence/newman.xml
+
+newman
+
+MSS301 Slot 13 - Saga automated
+
+❏ 0 - Service readiness
+↳ Products
+  GET http://localhost:8082/api/inventory/products [200 OK, 288B, 115ms]
+  ✓  HTTP 200
+  ✓  P1 and P2 seeded
+
+↳ Wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 225ms]
+  ✓  HTTP 200
+  ✓  C1 and C2 seeded
+
+↳ Orders
+  GET http://localhost:8081/api/orders [200 OK, 157B, 330ms]
+  ✓  HTTP 200
+
+❏ KB1 - Happy path
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 288B, 13ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 17ms]
+  ✓  HTTP 200
+
+↳ Place order kb1
+  POST http://localhost:8081/api/orders [200 OK, 297B, 1797ms]
+  ✓  HTTP 200
+  ✓  order CONFIRMED
+  ✓  saga COMPLETED
+  ✓  no failure
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 75ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 25ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Saga logs kb1
+  GET http://localhost:8081/api/orders/1/saga-logs [200 OK, 666B, 576ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+❏ KB2 - 402 compensation
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 20ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 18ms]
+  ✓  HTTP 200
+
+↳ Place order kb2
+  POST http://localhost:8081/api/orders [200 OK, 349B, 381ms]
+  ✓  HTTP 200
+  ✓  order CANCELLED
+  ✓  saga COMPENSATED
+  ✓  failure reason
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 8ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 12ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Saga logs kb2
+  GET http://localhost:8081/api/orders/2/saga-logs [200 OK, 815B, 9ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+↳ Reservation RELEASED
+  GET http://localhost:8082/api/inventory/reservations [200 OK, 310B, 13ms]
+  ✓  HTTP 200
+  ✓  reservation compensated
+
+❏ KB3 - 409 compensation
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 14ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 16ms]
+  ✓  HTTP 200
+
+↳ Place order kb3
+  POST http://localhost:8081/api/orders [200 OK, 342B, 72ms]
+  ✓  HTTP 200
+  ✓  order CANCELLED
+  ✓  saga COMPENSATED
+  ✓  failure reason
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 5ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 46ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Saga logs kb3
+  GET http://localhost:8081/api/orders/3/saga-logs [200 OK, 557B, 14ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+❏ KB4 - 404 compensation
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 18ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 22ms]
+  ✓  HTTP 200
+
+↳ Place order kb4
+  POST http://localhost:8081/api/orders [200 OK, 335B, 54ms]
+  ✓  HTTP 200
+  ✓  order CANCELLED
+  ✓  saga COMPENSATED
+  ✓  failure reason
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 6ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 15ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Saga logs kb4
+  GET http://localhost:8081/api/orders/4/saga-logs [200 OK, 554B, 21ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+❏ KB5 - 404 compensation
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 6ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 9ms]
+  ✓  HTTP 200
+
+↳ Place order kb5
+  POST http://localhost:8081/api/orders [200 OK, 332B, 117ms]
+  ✓  HTTP 200
+  ✓  order CANCELLED
+  ✓  saga COMPENSATED
+  ✓  failure reason
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 5ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 8ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Saga logs kb5
+  GET http://localhost:8081/api/orders/5/saga-logs [200 OK, 807B, 8ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+↳ Reservation RELEASED
+  GET http://localhost:8082/api/inventory/reservations [200 OK, 386B, 6ms]
+  ✓  HTTP 200
+  ✓  reservation compensated
+
+❏ KB7 - Idempotency and actual refund
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 6ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 12ms]
+  ✓  HTTP 200
+
+↳ Release compensated order 1
+  POST http://localhost:8082/api/inventory/release/2 [200 OK, 171B, 10ms]
+  ✓  HTTP 200
+  ✓  released
+
+↳ Release compensated order 2
+  POST http://localhost:8082/api/inventory/release/2 [200 OK, 171B, 7ms]
+  ✓  HTTP 200
+  ✓  released
+
+↳ Replay completed reserve
+  POST http://localhost:8082/api/inventory/reserve [200 OK, 231B, 10ms]
+  ✓  HTTP 200
+  ✓  existing reservation
+
+↳ Replay completed pay
+  POST http://localhost:8083/api/payments/pay [200 OK, 220B, 12ms]
+  ✓  HTTP 200
+  ✓  existing payment
+
+↳ Generate independent idempotency order id
+  GET http://localhost:8081/api/orders [200 OK, 1.03kB, 9ms]
+  ✓  HTTP 200
+
+↳ Direct reserve 1
+  POST http://localhost:8082/api/inventory/reserve [200 OK, 243B, 15ms]
+  ✓  HTTP 200
+
+↳ Direct pay 1
+  POST http://localhost:8083/api/payments/pay [200 OK, 227B, 22ms]
+  ✓  HTTP 200
+
+↳ Direct reserve 2
+  POST http://localhost:8082/api/inventory/reserve [200 OK, 243B, 10ms]
+  ✓  HTTP 200
+
+↳ Direct pay 2
+  POST http://localhost:8083/api/payments/pay [200 OK, 230B, 11ms]
+  ✓  HTTP 200
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 6ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 9ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+↳ Direct release 1
+  POST http://localhost:8082/api/inventory/release/1792674581288 [200 OK, 171B, 13ms]
+  ✓  HTTP 200
+
+↳ Direct refund 1
+  POST http://localhost:8083/api/payments/refund/1792674581288 [200 OK, 171B, 42ms]
+  ✓  HTTP 200
+
+↳ Direct release 2
+  POST http://localhost:8082/api/inventory/release/1792674581288 [200 OK, 171B, 10ms]
+  ✓  HTTP 200
+
+↳ Direct refund 2
+  POST http://localhost:8083/api/payments/refund/1792674581288 [200 OK, 171B, 8ms]
+  ✓  HTTP 200
+
+↳ Reserve after release returns original terminal state
+  POST http://localhost:8082/api/inventory/reserve [200 OK, 243B, 9ms]
+  ✓  HTTP 200
+  ✓  still RELEASED
+
+↳ Pay after refund returns original terminal state
+  POST http://localhost:8083/api/payments/pay [200 OK, 234B, 22ms]
+  ✓  HTTP 200
+  ✓  still REFUNDED
+
+↳ Refund absent order is a no-op
+  POST http://localhost:8083/api/payments/refund/9223372036854775806 [200 OK, 171B, 30ms]
+  ✓  HTTP 200
+
+↳ Release absent order is a no-op
+  POST http://localhost:8082/api/inventory/release/9223372036854775806 [200 OK, 171B, 34ms]
+  ✓  HTTP 200
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 5ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Verify wallet delta
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 9ms]
+  ✓  HTTP 200
+  ✓  balance C1
+  ✓  balance C2
+
+❏ Validation - invalid input and conflicting replay
+↳ Reject negative quantity
+  POST http://localhost:8081/api/orders [400 Bad Request, 240B, 91ms]
+  ✓  HTTP 400
+
+↳ Reject negative payment
+  POST http://localhost:8083/api/payments/pay [400 Bad Request, 320B, 138ms]
+  ✓  HTTP 400
+
+↳ Reject zero reservation
+  POST http://localhost:8082/api/inventory/reserve [400 Bad Request, 325B, 32ms]
+  ✓  HTTP 400
+
+↳ Direct insufficient balance
+  POST http://localhost:8083/api/payments/pay [402 Payment Required, 344B, 19ms]
+  ✓  HTTP 402
+  ✓  Vietnamese reason
+
+↳ Conflicting reserve replay
+  POST http://localhost:8082/api/inventory/reserve [409 Conflict, 328B, 12ms]
+  ✓  HTTP 409
+
+↳ Conflicting payment replay
+  POST http://localhost:8083/api/payments/pay [409 Conflict, 323B, 44ms]
+  ✓  HTTP 409
+
+┌─────────────────────────┬────────────────────┬───────────────────┐
+│                         │           executed │            failed │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              iterations │                  1 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│                requests │                 64 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│            test-scripts │                 64 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│      prerequest-scripts │                  0 │                 0 │
+├─────────────────────────┼────────────────────┼───────────────────┤
+│              assertions │                128 │                 0 │
+├─────────────────────────┴────────────────────┴───────────────────┤
+│ total run duration: 5.5s                                         │
+├──────────────────────────────────────────────────────────────────┤
+│ total data received: 9.25kB (approx)                             │
+├──────────────────────────────────────────────────────────────────┤
+│ average response time: 74ms [min: 5ms, max: 1797ms, s.d.: 237ms] │
+└──────────────────────────────────────────────────────────────────┘

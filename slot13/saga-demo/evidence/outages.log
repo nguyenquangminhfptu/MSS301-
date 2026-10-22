@@ -1,0 +1,202 @@
+ Container slot13-saga-payment-service-1  Stopping
+ Container slot13-saga-payment-service-1  Stopped
+newman
+
+MSS301 Slot 13 - Saga outage tests
+
+❏ KB6 - payment offline
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 70ms]
+  ✓  HTTP 200
+
+↳ Place order kb6
+  POST http://localhost:8081/api/orders [200 OK, 408B, 190ms]
+  ✓  HTTP 200
+  ✓  order CANCELLED
+  ✓  saga COMPENSATED
+  ✓  failure reason
+
+↳ Verify inventory delta
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 5ms]
+  ✓  HTTP 200
+  ✓  stock P1
+  ✓  stock P2
+
+↳ Saga logs kb6
+  GET http://localhost:8081/api/orders/7/saga-logs [200 OK, 883B, 18ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  LIFO saga steps
+
+┌─────────────────────────┬───────────────────┬──────────────────┐
+│                         │          executed │           failed │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              iterations │                 1 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│                requests │                 4 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│            test-scripts │                 4 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│      prerequest-scripts │                 0 │                0 │
+├─────────────────────────┼───────────────────┼──────────────────┤
+│              assertions │                11 │                0 │
+├─────────────────────────┴───────────────────┴──────────────────┤
+│ total run duration: 345ms                                      │
+├────────────────────────────────────────────────────────────────┤
+│ total data received: 1.24kB (approx)                           │
+├────────────────────────────────────────────────────────────────┤
+│ average response time: 70ms [min: 5ms, max: 190ms, s.d.: 73ms] │
+└────────────────────────────────────────────────────────────────┘
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-payment-service-1  Starting
+ Container slot13-saga-payment-service-1  Started
+ Container slot13-saga-mongodb-1  Running
+ Container slot13-saga-sqlserver-1  Running
+ Container slot13-saga-inventory-service-1  Running
+ Container slot13-saga-payment-service-1  Running
+ Container slot13-saga-mysql-1  Running
+ Container slot13-saga-order-service-1  Running
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-order-service-1  Waiting
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-order-service-1  Healthy
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-mongodb-1  Running
+ Container slot13-saga-sqlserver-1  Running
+ Container slot13-saga-mysql-1  Running
+ Container slot13-saga-inventory-service-1  Running
+ Container slot13-saga-payment-service-1  Running
+ Container slot13-saga-order-service-1  Recreate
+ Container slot13-saga-order-service-1  Recreated
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-order-service-1  Starting
+ Container slot13-saga-order-service-1  Started
+ Container slot13-saga-order-service-1  Waiting
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-order-service-1  Healthy
+newman
+
+MSS301 Slot 13 - Saga outage tests
+
+❏ KB8 - compensation offline
+↳ Snapshot products
+  GET http://localhost:8082/api/inventory/products [200 OK, 287B, 31ms]
+  ✓  HTTP 200
+
+↳ Snapshot wallets
+  GET http://localhost:8083/api/payments/wallets [200 OK, 232B, 50ms]
+  ✓  HTTP 200
+
+↳ Place order kb8
+  POST http://localhost:8081/api/orders  Container slot13-saga-payment-service-1  Stopping
+ Container slot13-saga-inventory-service-1  Stopping
+ Container slot13-saga-payment-service-1  Stopped
+ Container slot13-saga-inventory-service-1  Stopped
+[200 OK, 407B, 24s]
+  ✓  HTTP 200
+  ✓  order PENDING
+  ✓  saga COMPENSATING
+  ✓  failure reason
+
+↳ Saga logs kb8
+  GET http://localhost:8081/api/orders/8/saga-logs [200 OK, 1.34kB, 30ms]
+  ✓  HTTP 200
+  ✓  ordered persisted logs
+  ✓  exactly three failed compensations
+  ✓  no cancellation
+
+┌─────────────────────────┬──────────────────┬─────────────────┐
+│                         │         executed │          failed │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              iterations │                1 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│                requests │                4 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│            test-scripts │                4 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│      prerequest-scripts │                0 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              assertions │               10 │               0 │
+├─────────────────────────┴──────────────────┴─────────────────┤
+│ total run duration: 24.2s                                    │
+├──────────────────────────────────────────────────────────────┤
+│ total data received: 1.64kB (approx)                         │
+├──────────────────────────────────────────────────────────────┤
+│ average response time: 6s [min: 30ms, max: 24s, s.d.: 10.3s] │
+└──────────────────────────────────────────────────────────────┘
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-payment-service-1  Starting
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-inventory-service-1  Starting
+ Container slot13-saga-payment-service-1  Started
+ Container slot13-saga-inventory-service-1  Started
+ Container slot13-saga-mongodb-1  Running
+ Container slot13-saga-inventory-service-1  Running
+ Container slot13-saga-sqlserver-1  Running
+ Container slot13-saga-mysql-1  Running
+ Container slot13-saga-payment-service-1  Running
+ Container slot13-saga-order-service-1  Recreate
+ Container slot13-saga-order-service-1  Recreated
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-order-service-1  Starting
+ Container slot13-saga-order-service-1  Started
+ Container slot13-saga-mysql-1  Waiting
+ Container slot13-saga-sqlserver-1  Waiting
+ Container slot13-saga-mongodb-1  Waiting
+ Container slot13-saga-inventory-service-1  Waiting
+ Container slot13-saga-payment-service-1  Waiting
+ Container slot13-saga-order-service-1  Waiting
+ Container slot13-saga-inventory-service-1  Healthy
+ Container slot13-saga-mysql-1  Healthy
+ Container slot13-saga-mongodb-1  Healthy
+ Container slot13-saga-sqlserver-1  Healthy
+ Container slot13-saga-payment-service-1  Healthy
+ Container slot13-saga-order-service-1  Healthy
+KB6 and KB8 passed; all services restored, delay=0.

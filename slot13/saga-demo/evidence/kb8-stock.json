@@ -1,0 +1,16 @@
+{
+  "orderId": 8,
+  "before": {
+    "P1": 8,
+    "P2": 5
+  },
+  "stuck": {
+    "P1": 8,
+    "P2": 4
+  },
+  "afterManualRelease": {
+    "P1": 8,
+    "P2": 5
+  },
+  "note": "Inventory restored by manual idempotent release; order still COMPENSATING."
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "orderId": 8,
+    "step": "CREATE_ORDER",
+    "result": "SUCCESS",
+    "message": "Order PENDING",
+    "id": 31,
+    "time": "2026-10-22T13:11:51.53258"
+  },
+  {
+    "orderId": 8,
+    "step": "RESERVE_INVENTORY",
+    "result": "SUCCESS",
+    "message": "Đã giữ 1 P2",
+    "id": 32,
+    "time": "2026-10-22T13:11:51.866329"
+  },
+  {
+    "orderId": 8,
+    "step": "SAGA",
+    "result": "FAILED",
+    "message": "Service không phản hồi: I/O error on POST request for \"http://payment-service:8083/api/payments/pay\": null",
+    "id": 33,
+    "time": "2026-10-22T13:12:06.927923"
+  },
+  {
+    "orderId": 8,
+    "step": "COMPENSATION",
+    "result": "FAILED",
+    "message": "Lần thử 1: I/O error on POST request for \"http://inventory-service:8082/api/inventory/release/8\": HTTP connect timed out",
+    "id": 34,
+    "time": "2026-10-22T13:12:08.983625"
+  },
+  {
+    "orderId": 8,
+    "step": "COMPENSATION",
+    "result": "FAILED",
+    "message": "Lần thử 2: I/O error on POST request for \"http://inventory-service:8082/api/inventory/release/8\": HTTP connect timed out",
+    "id": 35,
+    "time": "2026-10-22T13:12:12.355902"
+  },
+  {
+    "orderId": 8,
+    "step": "COMPENSATION",
+    "result": "FAILED",
+    "message": "Lần thử 3: I/O error on POST request for \"http://inventory-service:8082/api/inventory/release/8\": HTTP connect timed out",
+    "id": 36,
+    "time": "2026-10-22T13:12:15.39029"
+  }
+]

@@ -1,0 +1,182 @@
+[
+  {
+    "Command": "\"java -jar /app/app.\u2026\"",
+    "CreatedAt": "2026-10-22 20:06:41 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "ebb15f22fdc5",
+    "Image": "slot13-saga-inventory-service",
+    "Labels": "org.opencontainers.image.title=ubuntu,org.opencontainers.image.version=26.04,com.docker.compose.version=2.31.0,com.docker.compose.container-number=1,com.docker.compose.depends_on=mongodb:service_healthy:false,com.docker.compose.project=slot13-saga,com.docker.compose.config-hash=56bf87df30a3634b09f4d9572448097f30e82da5db789d9033d1c087bb18d0b1,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,com.docker.compose.service=inventory-service,org.opencontainers.image.created=2026-10-06T20:38:12.175309+00:00,org.opencontainers.image.description=The Ubuntu container image maintained by Canonical\n\nUbuntu is a Debian-based Linux operating system that runs from the desktop to the cloud, to all your internet connected things.\nIt is the world's most popular operating system across public clouds and OpenStack clouds.\nIt is the number one platform for containers; from Docker to Kubernetes to LXD, Ubuntu can run your containers at scale.\nFast, secure and simple, Ubuntu powers millions of PCs worldwide.\n,com.docker.compose.image=sha256:73f3301408248f6f4048aef78424e4dca90c9c0bd66a4e897f76b52ad1a77240,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo",
+    "LocalVolumes": "0",
+    "Mounts": "",
+    "Name": "slot13-saga-inventory-service-1",
+    "Names": "slot13-saga-inventory-service-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "127.0.0.1:8082->8082/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 8082,
+        "PublishedPort": 8082,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "11 minutes ago",
+    "Service": "inventory-service",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 5 minutes (healthy)"
+  },
+  {
+    "Command": "\"docker-entrypoint.s\u2026\"",
+    "CreatedAt": "2026-10-22 20:06:40 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "e50e5a8df0c8",
+    "Image": "mongo:8.0",
+    "Labels": "com.docker.compose.version=2.31.0,com.docker.compose.depends_on=,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo,com.docker.compose.replace=82e405d11f6fa2c27044d395cd6e1ba694f61817cc51dee6596f4bfd48921bbc,com.docker.compose.service=mongodb,org.opencontainers.image.version=24.04,com.docker.compose.config-hash=16e1c92d6e2f25e2d06df1173c5782d45406ac3aa0f64deb597432f765cb6694,com.docker.compose.container-number=1,com.docker.compose.image=sha256:8069338966ef887002c860db296e4715a4318a2c4e37d4db47e814c33e752bda,com.docker.compose.oneoff=False,com.docker.compose.project=slot13-saga",
+    "LocalVolumes": "2",
+    "Mounts": "ab52a7191adf2d\u2026,slot13-saga_mo\u2026",
+    "Name": "slot13-saga-mongodb-1",
+    "Names": "slot13-saga-mongodb-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "127.0.0.1:27017->27017/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 27017,
+        "PublishedPort": 27017,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "11 minutes ago",
+    "Service": "mongodb",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 11 minutes (healthy)"
+  },
+  {
+    "Command": "\"docker-entrypoint.s\u2026\"",
+    "CreatedAt": "2026-10-22 20:06:40 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "f7f78d569d5b",
+    "Image": "mysql:8.4",
+    "Labels": "com.docker.compose.config-hash=41b5aab5d81640716e84a4df5727ed3a2f8d931d483b8d905e9c896ecffa799d,com.docker.compose.container-number=1,com.docker.compose.image=sha256:1bd43bad43e0de5959b98c4404e987046de21cd85b9e725849208db6539d3c2d,com.docker.compose.project=slot13-saga,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,com.docker.compose.replace=485af35dc65b9fa83fb3d45bf92af7c642c6f05d3133f09bb722bb263a34697a,com.docker.compose.service=mysql,com.docker.compose.version=2.31.0,com.docker.compose.depends_on=,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo",
+    "LocalVolumes": "1",
+    "Mounts": "slot13-saga_my\u2026",
+    "Name": "slot13-saga-mysql-1",
+    "Names": "slot13-saga-mysql-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "33060/tcp, 127.0.0.1:3307->3306/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 3306,
+        "PublishedPort": 3307,
+        "Protocol": "tcp"
+      },
+      {
+        "URL": "",
+        "TargetPort": 33060,
+        "PublishedPort": 0,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "11 minutes ago",
+    "Service": "mysql",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 11 minutes (healthy)"
+  },
+  {
+    "Command": "\"java -jar /app/app.\u2026\"",
+    "CreatedAt": "2026-10-22 20:12:16 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "8747e9cc092a",
+    "Image": "slot13-saga-order-service",
+    "Labels": "com.docker.compose.service=order-service,com.docker.compose.version=2.31.0,com.docker.compose.image=sha256:0b1f656945fecb3a33c969a739324687bf00033a9c84c28f970b742f2873505f,com.docker.compose.container-number=1,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo,org.opencontainers.image.version=26.04,com.docker.compose.config-hash=7fa65deeaa58ccba133679f2fb6b55ef996ebe68866218a55bcb4d9fc28853ab,com.docker.compose.project=slot13-saga,org.opencontainers.image.title=ubuntu,com.docker.compose.oneoff=False,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,com.docker.compose.replace=f4f2eae4f4c595fea922748a9b5a355ebbae92759bf9ae04a614baa4bd9d3db0,org.opencontainers.image.created=2026-10-06T20:38:12.175309+00:00,org.opencontainers.image.description=The Ubuntu container image maintained by Canonical\n\nUbuntu is a Debian-based Linux operating system that runs from the desktop to the cloud, to all your internet connected things.\nIt is the world's most popular operating system across public clouds and OpenStack clouds.\nIt is the number one platform for containers; from Docker to Kubernetes to LXD, Ubuntu can run your containers at scale.\nFast, secure and simple, Ubuntu powers millions of PCs worldwide.\n,com.docker.compose.depends_on=mysql:service_healthy:false,inventory-service:service_healthy:false,payment-service:service_healthy:false",
+    "LocalVolumes": "0",
+    "Mounts": "",
+    "Name": "slot13-saga-order-service-1",
+    "Names": "slot13-saga-order-service-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "127.0.0.1:8081->8081/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 8081,
+        "PublishedPort": 8081,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "5 minutes ago",
+    "Service": "order-service",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 5 minutes (healthy)"
+  },
+  {
+    "Command": "\"java -jar /app/app.\u2026\"",
+    "CreatedAt": "2026-10-22 20:06:51 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "c5c41ac959b9",
+    "Image": "slot13-saga-payment-service",
+    "Labels": "org.opencontainers.image.version=26.04,com.docker.compose.depends_on=sqlserver:service_healthy:false,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,org.opencontainers.image.title=ubuntu,com.docker.compose.version=2.31.0,org.opencontainers.image.created=2026-10-06T20:38:12.175309+00:00,com.docker.compose.project=slot13-saga,com.docker.compose.container-number=1,com.docker.compose.oneoff=False,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo,com.docker.compose.service=payment-service,org.opencontainers.image.description=The Ubuntu container image maintained by Canonical\n\nUbuntu is a Debian-based Linux operating system that runs from the desktop to the cloud, to all your internet connected things.\nIt is the world's most popular operating system across public clouds and OpenStack clouds.\nIt is the number one platform for containers; from Docker to Kubernetes to LXD, Ubuntu can run your containers at scale.\nFast, secure and simple, Ubuntu powers millions of PCs worldwide.\n,com.docker.compose.config-hash=5fa49b385a7b18e5cc9eec4119ab7f4f5b8e823c976c73fb247c482efa4e7e09,com.docker.compose.image=sha256:05b062cb45854254c74706e0a842b4558ffced02e68471d5b958896e55b2f698",
+    "LocalVolumes": "0",
+    "Mounts": "",
+    "Name": "slot13-saga-payment-service-1",
+    "Names": "slot13-saga-payment-service-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "127.0.0.1:8083->8083/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 8083,
+        "PublishedPort": 8083,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "11 minutes ago",
+    "Service": "payment-service",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 5 minutes (healthy)"
+  },
+  {
+    "Command": "\"/opt/mssql/bin/laun\u2026\"",
+    "CreatedAt": "2026-10-22 20:06:40 +0700 +07",
+    "ExitCode": 0,
+    "Health": "healthy",
+    "ID": "cb262bd97422",
+    "Image": "mcr.microsoft.com/mssql/server:2022-latest",
+    "Labels": "com.docker.compose.container-number=1,com.docker.compose.project.working_dir=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo,com.docker.compose.replace=6be52c606c28f0d38911c1cfc8b1f1306932ae2f48b4d664d7fdfbebff65205f,org.opencontainers.image.version=22.04,com.docker.compose.config-hash=e4e58ca8d25e9664824083944f42fcaaaba1e595d6bd9af922f364a25330bc90,com.docker.compose.image=sha256:5b0916c7af8ca97ce9390be7e1182862d6fa90bff9f44f035dbe1626df140637,com.microsoft.version=16.0.4295.3,org.opencontainers.image.ref.name=ubuntu,com.docker.compose.depends_on=,com.docker.compose.service=sqlserver,com.docker.compose.version=2.31.0,com.microsoft.product=Microsoft SQL Server,com.docker.compose.oneoff=False,com.docker.compose.project=slot13-saga,com.docker.compose.project.config_files=/Users/quangminhnguyen/Documents/FPT_SEMESTER/KY8/MSS/MSS301 /Slot 13/saga-demo/docker-compose.yml,vendor=Microsoft",
+    "LocalVolumes": "1",
+    "Mounts": "slot13-saga_ms\u2026",
+    "Name": "slot13-saga-sqlserver-1",
+    "Names": "slot13-saga-sqlserver-1",
+    "Networks": "slot13-saga_default",
+    "Ports": "127.0.0.1:14330->1433/tcp",
+    "Project": "slot13-saga",
+    "Publishers": [
+      {
+        "URL": "127.0.0.1",
+        "TargetPort": 1433,
+        "PublishedPort": 14330,
+        "Protocol": "tcp"
+      }
+    ],
+    "RunningFor": "11 minutes ago",
+    "Service": "sqlserver",
+    "Size": "0B",
+    "State": "running",
+    "Status": "Up 11 minutes (healthy)"
+  }
+]

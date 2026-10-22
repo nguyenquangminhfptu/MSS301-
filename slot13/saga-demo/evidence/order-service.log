@@ -1,0 +1,45 @@
+order-service-1  |
+order-service-1  |   .   ____          _            __ _ _
+order-service-1  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+order-service-1  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+order-service-1  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+order-service-1  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+order-service-1  |  =========|_|==============|___/=/_/_/_/
+order-service-1  |
+order-service-1  |  :: Spring Boot ::                (v4.1.1)
+order-service-1  |
+order-service-1  | 2026-10-22T13:12:28.255Z  INFO 1 --- [order-service] [           main] c.mss301.order.OrderServiceApplication   : Starting OrderServiceApplication v0.0.1-SNAPSHOT using Java 21.0.12.1 with PID 1 (/app/app.jar started by root in /app)
+order-service-1  | 2026-10-22T13:12:28.259Z  INFO 1 --- [order-service] [           main] c.mss301.order.OrderServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+order-service-1  | 2026-10-22T13:12:28.784Z  INFO 1 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+order-service-1  | 2026-10-22T13:12:28.815Z  INFO 1 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 2 JPA repository interfaces.
+order-service-1  | 2026-10-22T13:12:29.171Z  INFO 1 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+order-service-1  | 2026-10-22T13:12:29.179Z  INFO 1 --- [order-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+order-service-1  | 2026-10-22T13:12:29.179Z  INFO 1 --- [order-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.24]
+order-service-1  | 2026-10-22T13:12:29.192Z  INFO 1 --- [order-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 889 ms
+order-service-1  | 2026-10-22T13:12:29.394Z  INFO 1 --- [order-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+order-service-1  | 2026-10-22T13:12:29.431Z  INFO 1 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.5.Final
+order-service-1  | 2026-10-22T13:12:29.685Z  INFO 1 --- [order-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+order-service-1  | 2026-10-22T13:12:29.704Z  INFO 1 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+order-service-1  | 2026-10-22T13:12:29.814Z  INFO 1 --- [order-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4fe4503a
+order-service-1  | 2026-10-22T13:12:29.815Z  INFO 1 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+order-service-1  | 2026-10-22T13:12:29.866Z  INFO 1 --- [order-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+order-service-1  | 	Database JDBC URL [jdbc:mysql://mysql:3306/orderdb?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false]
+order-service-1  | 	Database driver: MySQL Connector/J
+order-service-1  | 	Database dialect: MySQLDialect
+order-service-1  | 	Database version: 8.4.11
+order-service-1  | 	Default catalog/schema: orderdb/undefined
+order-service-1  | 	Autocommit mode: undefined/unknown
+order-service-1  | 	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+order-service-1  | 	JDBC fetch size: none
+order-service-1  | 	Pool: DataSourceConnectionProvider
+order-service-1  | 	Minimum pool size: undefined/unknown
+order-service-1  | 	Maximum pool size: undefined/unknown
+order-service-1  | 2026-10-22T13:12:30.401Z  INFO 1 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+order-service-1  | 2026-10-22T13:12:30.442Z  INFO 1 --- [order-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+order-service-1  | 2026-10-22T13:12:30.619Z  INFO 1 --- [order-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+order-service-1  | 2026-10-22T13:12:31.224Z  INFO 1 --- [order-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+order-service-1  | 2026-10-22T13:12:31.310Z  INFO 1 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+order-service-1  | 2026-10-22T13:12:31.327Z  INFO 1 --- [order-service] [           main] c.mss301.order.OrderServiceApplication   : Started OrderServiceApplication in 3.389 seconds (process running for 3.783)
+order-service-1  | 2026-10-22T13:12:32.624Z  INFO 1 --- [order-service] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+order-service-1  | 2026-10-22T13:12:32.624Z  INFO 1 --- [order-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+order-service-1  | 2026-10-22T13:12:32.626Z  INFO 1 --- [order-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="MSS301 Slot 13 - Saga automated" tests="64" time="4.753">
+  <testsuite name="0 - Service readiness / Products" id="6b1a5344-b481-47a9-992c-cd0a68740157" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.115">
+    <testcase name="HTTP 200" time="0.115" classname="0ServiceReadinessProducts"/>
+    <testcase name="P1 and P2 seeded" time="0.115" classname="0ServiceReadinessProducts"/>
+  </testsuite>
+  <testsuite name="0 - Service readiness / Wallets" id="b1aa601c-ee82-498a-b253-79ee64a1544c" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.225">
+    <testcase name="HTTP 200" time="0.225" classname="0ServiceReadinessWallets"/>
+    <testcase name="C1 and C2 seeded" time="0.225" classname="0ServiceReadinessWallets"/>
+  </testsuite>
+  <testsuite name="0 - Service readiness / Orders" id="4fe47d71-f3b4-4a36-8ba1-0c91de34e016" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.330">
+    <testcase name="HTTP 200" time="0.330" classname="0ServiceReadinessOrders"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Snapshot products" id="3be03555-755c-4a33-b276-34a10cdd3c18" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.013">
+    <testcase name="HTTP 200" time="0.013" classname="Kb1HappyPathSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Snapshot wallets" id="73a051c9-5577-41c2-88a7-d4cff2bd0801" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.017">
+    <testcase name="HTTP 200" time="0.017" classname="Kb1HappyPathSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Place order kb1" id="d0f6db34-fb7e-408d-858c-fbda1f043cb9" timestamp="2026-10-22T13:09:36.551Z" tests="4" failures="0" errors="0" time="1.797">
+    <testcase name="HTTP 200" time="1.797" classname="Kb1HappyPathPlaceOrderKb1"/>
+    <testcase name="order CONFIRMED" time="1.797" classname="Kb1HappyPathPlaceOrderKb1"/>
+    <testcase name="saga COMPLETED" time="1.797" classname="Kb1HappyPathPlaceOrderKb1"/>
+    <testcase name="no failure" time="1.797" classname="Kb1HappyPathPlaceOrderKb1"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Verify inventory delta" id="7be87eb7-7ca4-405c-bdef-9b735965c8a1" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.075">
+    <testcase name="HTTP 200" time="0.075" classname="Kb1HappyPathVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.075" classname="Kb1HappyPathVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.075" classname="Kb1HappyPathVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Verify wallet delta" id="5c741e94-191f-4171-85c8-d5220101fd95" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.025">
+    <testcase name="HTTP 200" time="0.025" classname="Kb1HappyPathVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.025" classname="Kb1HappyPathVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.025" classname="Kb1HappyPathVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB1 - Happy path / Saga logs kb1" id="aae2e4fd-48f5-48e1-9db4-15e2fcf93297" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.576">
+    <testcase name="HTTP 200" time="0.576" classname="Kb1HappyPathSagaLogsKb1"/>
+    <testcase name="ordered persisted logs" time="0.576" classname="Kb1HappyPathSagaLogsKb1"/>
+    <testcase name="LIFO saga steps" time="0.576" classname="Kb1HappyPathSagaLogsKb1"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Snapshot products" id="e70cbc52-c7d7-44c2-a8de-9e8a5bcd1d6f" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.020">
+    <testcase name="HTTP 200" time="0.020" classname="Kb2402CompensationSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Snapshot wallets" id="7fea9a63-dd5c-4c37-9d85-ef83bc0e9b71" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.018">
+    <testcase name="HTTP 200" time="0.018" classname="Kb2402CompensationSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Place order kb2" id="afd1cd62-2cf9-4204-9e71-9f0e16cc4488" timestamp="2026-10-22T13:09:36.551Z" tests="4" failures="0" errors="0" time="0.381">
+    <testcase name="HTTP 200" time="0.381" classname="Kb2402CompensationPlaceOrderKb2"/>
+    <testcase name="order CANCELLED" time="0.381" classname="Kb2402CompensationPlaceOrderKb2"/>
+    <testcase name="saga COMPENSATED" time="0.381" classname="Kb2402CompensationPlaceOrderKb2"/>
+    <testcase name="failure reason" time="0.381" classname="Kb2402CompensationPlaceOrderKb2"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Verify inventory delta" id="502ab4b3-576c-4b1c-b8c1-b92c0b070b29" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="HTTP 200" time="0.008" classname="Kb2402CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.008" classname="Kb2402CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.008" classname="Kb2402CompensationVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Verify wallet delta" id="8043b4dd-1682-441a-8f3e-cd6881cee57d" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.012">
+    <testcase name="HTTP 200" time="0.012" classname="Kb2402CompensationVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.012" classname="Kb2402CompensationVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.012" classname="Kb2402CompensationVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Saga logs kb2" id="3d4d6540-4b8c-44fe-848a-3ff887a92c75" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb2402CompensationSagaLogsKb2"/>
+    <testcase name="ordered persisted logs" time="0.009" classname="Kb2402CompensationSagaLogsKb2"/>
+    <testcase name="LIFO saga steps" time="0.009" classname="Kb2402CompensationSagaLogsKb2"/>
+  </testsuite>
+  <testsuite name="KB2 - 402 compensation / Reservation RELEASED" id="6caf403e-392c-49bf-8a9e-3f2f10e24a73" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.013">
+    <testcase name="HTTP 200" time="0.013" classname="Kb2402CompensationReservationReleased"/>
+    <testcase name="reservation compensated" time="0.013" classname="Kb2402CompensationReservationReleased"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Snapshot products" id="02b29ea6-fabe-4983-b051-721d3771e218" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.014">
+    <testcase name="HTTP 200" time="0.014" classname="Kb3409CompensationSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Snapshot wallets" id="6ee6688c-ce65-4e59-8edf-096ab0d0e4ac" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.016">
+    <testcase name="HTTP 200" time="0.016" classname="Kb3409CompensationSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Place order kb3" id="71ed35e8-37c0-407c-82c1-9cf74931210e" timestamp="2026-10-22T13:09:36.551Z" tests="4" failures="0" errors="0" time="0.072">
+    <testcase name="HTTP 200" time="0.072" classname="Kb3409CompensationPlaceOrderKb3"/>
+    <testcase name="order CANCELLED" time="0.072" classname="Kb3409CompensationPlaceOrderKb3"/>
+    <testcase name="saga COMPENSATED" time="0.072" classname="Kb3409CompensationPlaceOrderKb3"/>
+    <testcase name="failure reason" time="0.072" classname="Kb3409CompensationPlaceOrderKb3"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Verify inventory delta" id="6fabeff8-5f00-4150-a406-67e632416a34" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="HTTP 200" time="0.005" classname="Kb3409CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.005" classname="Kb3409CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.005" classname="Kb3409CompensationVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Verify wallet delta" id="b7ea5d57-c8d5-4e63-baf3-f6981d0c1e0f" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.046">
+    <testcase name="HTTP 200" time="0.046" classname="Kb3409CompensationVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.046" classname="Kb3409CompensationVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.046" classname="Kb3409CompensationVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB3 - 409 compensation / Saga logs kb3" id="1aec83a7-7ce9-40e0-8b57-2e5c40d18a8f" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.014">
+    <testcase name="HTTP 200" time="0.014" classname="Kb3409CompensationSagaLogsKb3"/>
+    <testcase name="ordered persisted logs" time="0.014" classname="Kb3409CompensationSagaLogsKb3"/>
+    <testcase name="LIFO saga steps" time="0.014" classname="Kb3409CompensationSagaLogsKb3"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Snapshot products" id="83ffa7b6-9e09-4212-94af-cc52816750cc" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.018">
+    <testcase name="HTTP 200" time="0.018" classname="Kb4404CompensationSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Snapshot wallets" id="6ea700a8-aa1a-4de2-addc-92104dd1e20b" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.022">
+    <testcase name="HTTP 200" time="0.022" classname="Kb4404CompensationSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Place order kb4" id="0f0d6492-b902-40a6-9949-b5a93ab48a7a" timestamp="2026-10-22T13:09:36.551Z" tests="4" failures="0" errors="0" time="0.054">
+    <testcase name="HTTP 200" time="0.054" classname="Kb4404CompensationPlaceOrderKb4"/>
+    <testcase name="order CANCELLED" time="0.054" classname="Kb4404CompensationPlaceOrderKb4"/>
+    <testcase name="saga COMPENSATED" time="0.054" classname="Kb4404CompensationPlaceOrderKb4"/>
+    <testcase name="failure reason" time="0.054" classname="Kb4404CompensationPlaceOrderKb4"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Verify inventory delta" id="fd80c058-ead5-479f-9f31-91744f547f1c" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="HTTP 200" time="0.006" classname="Kb4404CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.006" classname="Kb4404CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.006" classname="Kb4404CompensationVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Verify wallet delta" id="24818abf-411b-4722-b8b5-6f1d2add48e4" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.015">
+    <testcase name="HTTP 200" time="0.015" classname="Kb4404CompensationVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.015" classname="Kb4404CompensationVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.015" classname="Kb4404CompensationVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB4 - 404 compensation / Saga logs kb4" id="06a3693e-6a88-456e-9543-415213154949" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.021">
+    <testcase name="HTTP 200" time="0.021" classname="Kb4404CompensationSagaLogsKb4"/>
+    <testcase name="ordered persisted logs" time="0.021" classname="Kb4404CompensationSagaLogsKb4"/>
+    <testcase name="LIFO saga steps" time="0.021" classname="Kb4404CompensationSagaLogsKb4"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Snapshot products" id="4e0440c4-0452-4270-875b-84bb42b8eb14" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.006">
+    <testcase name="HTTP 200" time="0.006" classname="Kb5404CompensationSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Snapshot wallets" id="09abe305-bf48-407f-9432-df4b22331c96" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb5404CompensationSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Place order kb5" id="7da8a808-ba52-4c09-9293-e11af105806a" timestamp="2026-10-22T13:09:36.551Z" tests="4" failures="0" errors="0" time="0.117">
+    <testcase name="HTTP 200" time="0.117" classname="Kb5404CompensationPlaceOrderKb5"/>
+    <testcase name="order CANCELLED" time="0.117" classname="Kb5404CompensationPlaceOrderKb5"/>
+    <testcase name="saga COMPENSATED" time="0.117" classname="Kb5404CompensationPlaceOrderKb5"/>
+    <testcase name="failure reason" time="0.117" classname="Kb5404CompensationPlaceOrderKb5"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Verify inventory delta" id="e995e92c-782b-4331-a289-d7ee24d05097" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="HTTP 200" time="0.005" classname="Kb5404CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.005" classname="Kb5404CompensationVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.005" classname="Kb5404CompensationVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Verify wallet delta" id="067335c4-cc94-4749-a0ca-ff5cf67d6e17" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="HTTP 200" time="0.008" classname="Kb5404CompensationVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.008" classname="Kb5404CompensationVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.008" classname="Kb5404CompensationVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Saga logs kb5" id="98f2d3b6-5e4a-4afd-ad2a-d9eef364cfd1" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.008">
+    <testcase name="HTTP 200" time="0.008" classname="Kb5404CompensationSagaLogsKb5"/>
+    <testcase name="ordered persisted logs" time="0.008" classname="Kb5404CompensationSagaLogsKb5"/>
+    <testcase name="LIFO saga steps" time="0.008" classname="Kb5404CompensationSagaLogsKb5"/>
+  </testsuite>
+  <testsuite name="KB5 - 404 compensation / Reservation RELEASED" id="06159559-8841-428b-92f7-f01412047088" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.006">
+    <testcase name="HTTP 200" time="0.006" classname="Kb5404CompensationReservationReleased"/>
+    <testcase name="reservation compensated" time="0.006" classname="Kb5404CompensationReservationReleased"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Snapshot products" id="063b8d28-9f8d-4be7-8e7b-f9c6f4335a8a" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.006">
+    <testcase name="HTTP 200" time="0.006" classname="Kb7IdempotencyAndActualRefundSnapshotProducts"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Snapshot wallets" id="a2b79306-449d-4bd4-a477-1a2aa63b3409" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.012">
+    <testcase name="HTTP 200" time="0.012" classname="Kb7IdempotencyAndActualRefundSnapshotWallets"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Release compensated order 1" id="15dab550-d301-4051-be91-eb5c6b861b64" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.010">
+    <testcase name="HTTP 200" time="0.010" classname="Kb7IdempotencyAndActualRefundReleaseCompensatedOrder1"/>
+    <testcase name="released" time="0.010" classname="Kb7IdempotencyAndActualRefundReleaseCompensatedOrder1"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Release compensated order 2" id="099635af-9068-4316-a61c-791ba88521a0" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.007">
+    <testcase name="HTTP 200" time="0.007" classname="Kb7IdempotencyAndActualRefundReleaseCompensatedOrder2"/>
+    <testcase name="released" time="0.007" classname="Kb7IdempotencyAndActualRefundReleaseCompensatedOrder2"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Replay completed reserve" id="e6683ff6-82ab-46c9-bb68-76f9eb673916" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.010">
+    <testcase name="HTTP 200" time="0.010" classname="Kb7IdempotencyAndActualRefundReplayCompletedReserve"/>
+    <testcase name="existing reservation" time="0.010" classname="Kb7IdempotencyAndActualRefundReplayCompletedReserve"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Replay completed pay" id="6ef400d0-d22b-41b3-b562-8b4bfe2df5a1" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.012">
+    <testcase name="HTTP 200" time="0.012" classname="Kb7IdempotencyAndActualRefundReplayCompletedPay"/>
+    <testcase name="existing payment" time="0.012" classname="Kb7IdempotencyAndActualRefundReplayCompletedPay"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Generate independent idempotency order id" id="4fb548a9-c340-48cf-8444-98d34452def3" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb7IdempotencyAndActualRefundGenerateIndependentIdempotencyOrderId"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct reserve 1" id="fb2afded-4492-4d02-ac80-053f83a87b07" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.015">
+    <testcase name="HTTP 200" time="0.015" classname="Kb7IdempotencyAndActualRefundDirectReserve1"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct pay 1" id="d79a0778-356a-4ebb-98bc-85c32c86eb73" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.022">
+    <testcase name="HTTP 200" time="0.022" classname="Kb7IdempotencyAndActualRefundDirectPay1"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct reserve 2" id="53e4deb0-088b-4e6d-8392-f935c3424814" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.010">
+    <testcase name="HTTP 200" time="0.010" classname="Kb7IdempotencyAndActualRefundDirectReserve2"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct pay 2" id="5f7da3b4-c62d-493d-8915-62e3e0157baa" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.011">
+    <testcase name="HTTP 200" time="0.011" classname="Kb7IdempotencyAndActualRefundDirectPay2"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Verify inventory delta" id="b7e9189d-47c7-4338-9761-ac34236aae05" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.006">
+    <testcase name="HTTP 200" time="0.006" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.006" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.006" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Verify wallet delta" id="fcd2f08e-6dff-4cb6-85f6-5810550db3bc" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct release 1" id="5f296e7b-9b46-47f4-a1c3-5b5603418643" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.013">
+    <testcase name="HTTP 200" time="0.013" classname="Kb7IdempotencyAndActualRefundDirectRelease1"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct refund 1" id="01e8efc8-ba70-4382-93d6-e0414495f410" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.042">
+    <testcase name="HTTP 200" time="0.042" classname="Kb7IdempotencyAndActualRefundDirectRefund1"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct release 2" id="3ccd0daf-1f2c-4ba9-9080-d2d14795d8fc" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.010">
+    <testcase name="HTTP 200" time="0.010" classname="Kb7IdempotencyAndActualRefundDirectRelease2"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Direct refund 2" id="97cdcf76-033a-4501-9732-ccf88d9731e9" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.008">
+    <testcase name="HTTP 200" time="0.008" classname="Kb7IdempotencyAndActualRefundDirectRefund2"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Reserve after release returns original terminal state" id="2a927d58-292b-4294-aa47-635981a62971" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb7IdempotencyAndActualRefundReserveAfterReleaseReturnsOriginalTerminalState"/>
+    <testcase name="still RELEASED" time="0.009" classname="Kb7IdempotencyAndActualRefundReserveAfterReleaseReturnsOriginalTerminalState"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Pay after refund returns original terminal state" id="9f32f191-fc45-4f2f-b6f0-ffe754bab1fa" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.022">
+    <testcase name="HTTP 200" time="0.022" classname="Kb7IdempotencyAndActualRefundPayAfterRefundReturnsOriginalTerminalState"/>
+    <testcase name="still REFUNDED" time="0.022" classname="Kb7IdempotencyAndActualRefundPayAfterRefundReturnsOriginalTerminalState"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Refund absent order is a no-op" id="6ed1abc3-9e95-4c77-aff5-7ca7d15b7ff4" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.030">
+    <testcase name="HTTP 200" time="0.030" classname="Kb7IdempotencyAndActualRefundRefundAbsentOrderIsANoOp"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Release absent order is a no-op" id="94a2b209-5cfd-420c-aa34-1b25e7a9f8ec" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.034">
+    <testcase name="HTTP 200" time="0.034" classname="Kb7IdempotencyAndActualRefundReleaseAbsentOrderIsANoOp"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Verify inventory delta" id="50ee01b7-ec11-4522-a1a0-b1b8d02b4745" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.005">
+    <testcase name="HTTP 200" time="0.005" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+    <testcase name="stock P1" time="0.005" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+    <testcase name="stock P2" time="0.005" classname="Kb7IdempotencyAndActualRefundVerifyInventoryDelta"/>
+  </testsuite>
+  <testsuite name="KB7 - Idempotency and actual refund / Verify wallet delta" id="68ec5c45-0cff-43f3-b9ca-e3f60d740712" timestamp="2026-10-22T13:09:36.551Z" tests="3" failures="0" errors="0" time="0.009">
+    <testcase name="HTTP 200" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+    <testcase name="balance C1" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+    <testcase name="balance C2" time="0.009" classname="Kb7IdempotencyAndActualRefundVerifyWalletDelta"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Reject negative quantity" id="bad0c926-69d7-4729-b5d2-c555521015dc" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.091">
+    <testcase name="HTTP 400" time="0.091" classname="ValidationInvalidInputAndConflictingReplayRejectNegativeQuantity"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Reject negative payment" id="e16da76d-7aeb-4fc4-b65a-72a457e00dd0" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.138">
+    <testcase name="HTTP 400" time="0.138" classname="ValidationInvalidInputAndConflictingReplayRejectNegativePayment"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Reject zero reservation" id="a147ea12-a656-48e5-af7f-3ec3aa5d1400" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.032">
+    <testcase name="HTTP 400" time="0.032" classname="ValidationInvalidInputAndConflictingReplayRejectZeroReservation"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Direct insufficient balance" id="e98299b5-1f3e-424d-bb22-8e5033cddc5c" timestamp="2026-10-22T13:09:36.551Z" tests="2" failures="0" errors="0" time="0.019">
+    <testcase name="HTTP 402" time="0.019" classname="ValidationInvalidInputAndConflictingReplayDirectInsufficientBalance"/>
+    <testcase name="Vietnamese reason" time="0.019" classname="ValidationInvalidInputAndConflictingReplayDirectInsufficientBalance"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Conflicting reserve replay" id="13ae0ae4-5237-4438-b082-93f02db52ad3" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.012">
+    <testcase name="HTTP 409" time="0.012" classname="ValidationInvalidInputAndConflictingReplayConflictingReserveReplay"/>
+  </testsuite>
+  <testsuite name="Validation - invalid input and conflicting replay / Conflicting payment replay" id="b01825ac-a09f-48d5-a2da-e80dd71fc95c" timestamp="2026-10-22T13:09:36.551Z" tests="1" failures="0" errors="0" time="0.044">
+    <testcase name="HTTP 409" time="0.044" classname="ValidationInvalidInputAndConflictingReplayConflictingPaymentReplay"/>
+  </testsuite>
+</testsuites>

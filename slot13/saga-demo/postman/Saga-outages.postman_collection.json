@@ -1,0 +1,237 @@
+{
+  "info": {
+    "_postman_id": "d04723a5-efd4-45ec-9b59-997f667c95da",
+    "name": "MSS301 Slot 13 - Saga outage tests",
+    "description": "Read README before running: KB6 requires payment-service stopped. KB8 requires PAYMENT_DELAY_MS=15000 and stopping both participants after reserve. Run each folder separately. Restore services after testing.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "orderUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "inventoryUrl",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "paymentUrl",
+      "value": "http://localhost:8083"
+    }
+  ],
+  "item": [
+    {
+      "name": "KB6 - payment offline",
+      "item": [
+        {
+          "name": "Snapshot products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{inventoryUrl}}/api/inventory/products"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.response.json().forEach(p => pm.collectionVariables.set(\"stock_\"+p.id,p.stock));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Place order kb6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{orderUrl}}/api/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"customerId\": \"C1\", \"productId\": \"P2\", \"quantity\": 1, \"amount\": 20}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const o=pm.response.json();",
+                  "pm.collectionVariables.set(\"kb6OrderId\",o.id);",
+                  "pm.test(\"order CANCELLED\",()=>pm.expect(o.status).to.eql(\"CANCELLED\"));",
+                  "pm.test(\"saga COMPENSATED\",()=>pm.expect(o.sagaStatus).to.eql(\"COMPENSATED\"));",
+                  "pm.test(\"failure reason\",()=>pm.expect(o.failureReason).to.match(new RegExp(\"^Service kh\\u00f4ng ph\\u1ea3n h\\u1ed3i\")));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify inventory delta",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{inventoryUrl}}/api/inventory/products"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const delta={};",
+                  "pm.response.json().forEach(p => pm.test(\"stock \"+p.id,()=>pm.expect(p.stock).to.eql(Number(pm.collectionVariables.get(\"stock_\"+p.id))+(delta[p.id]||0))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Saga logs kb6",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{orderUrl}}/api/orders/{{kb6OrderId}}/saga-logs"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const logs=pm.response.json();",
+                  "pm.test(\"ordered persisted logs\",()=>{ pm.expect(logs.length).to.be.above(0); logs.forEach((l,i)=>{pm.expect(l.orderId).to.eql(Number(pm.collectionVariables.get(\"kb6OrderId\"))); pm.expect(l.time).to.be.a(\"string\"); if(i) pm.expect(l.id).to.be.above(logs[i-1].id); }); });",
+                  "pm.test(\"LIFO saga steps\",()=>pm.expect(logs.map(l=>l.step)).to.eql([\"CREATE_ORDER\", \"RESERVE_INVENTORY\", \"SAGA\", \"COMPENSATION\", \"CANCEL_ORDER\"]));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Stop payment before running. Wallet API is unavailable during outage; test-outages.py verifies balance after restarting payment."
+    },
+    {
+      "name": "KB8 - compensation offline",
+      "item": [
+        {
+          "name": "Snapshot products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{inventoryUrl}}/api/inventory/products"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.response.json().forEach(p => pm.collectionVariables.set(\"stock_\"+p.id,p.stock));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Snapshot wallets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{paymentUrl}}/api/payments/wallets"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.response.json().forEach(w => pm.collectionVariables.set(\"balance_\"+w.customerId,w.balance));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Place order kb8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{orderUrl}}/api/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"customerId\": \"C1\", \"productId\": \"P2\", \"quantity\": 1, \"amount\": 20}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const o=pm.response.json();",
+                  "pm.collectionVariables.set(\"kb8OrderId\",o.id);",
+                  "pm.test(\"order PENDING\",()=>pm.expect(o.status).to.eql(\"PENDING\"));",
+                  "pm.test(\"saga COMPENSATING\",()=>pm.expect(o.sagaStatus).to.eql(\"COMPENSATING\"));",
+                  "pm.test(\"failure reason\",()=>pm.expect(o.failureReason).to.match(new RegExp(\"^Service kh\\u00f4ng ph\\u1ea3n h\\u1ed3i\")));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Saga logs kb8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{orderUrl}}/api/orders/{{kb8OrderId}}/saga-logs"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "const logs=pm.response.json();",
+                  "pm.test(\"ordered persisted logs\",()=>{ pm.expect(logs.length).to.be.above(0); logs.forEach((l,i)=>{pm.expect(l.orderId).to.eql(Number(pm.collectionVariables.get(\"kb8OrderId\"))); pm.expect(l.time).to.be.a(\"string\"); if(i) pm.expect(l.id).to.be.above(logs[i-1].id); }); });",
+                  "pm.test(\"exactly three failed compensations\",()=>pm.expect(logs.filter(l=>l.step===\"COMPENSATION\"&&l.result===\"FAILED\")).to.have.length(3));",
+                  "pm.test(\"no cancellation\",()=>pm.expect(logs.map(l=>l.step)).not.to.include(\"CANCEL_ORDER\"));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

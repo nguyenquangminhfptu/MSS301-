@@ -1,0 +1,10 @@
+[
+  {
+    "customerId": "C1",
+    "balance": 1000.0
+  },
+  {
+    "customerId": "C2",
+    "balance": 100.0
+  }
+]

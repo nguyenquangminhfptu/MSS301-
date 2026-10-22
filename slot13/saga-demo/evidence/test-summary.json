@@ -1,0 +1,78 @@
+{
+  "newman.json": {
+    "requests": {
+      "total": 64,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 128,
+      "pending": 0,
+      "failed": 0
+    },
+    "failures": 0
+  },
+  "kb8-newman.json": {
+    "requests": {
+      "total": 4,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 10,
+      "pending": 0,
+      "failed": 0
+    },
+    "failures": 0
+  },
+  "kb6-newman.json": {
+    "requests": {
+      "total": 4,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 11,
+      "pending": 0,
+      "failed": 0
+    },
+    "failures": 0
+  },
+  "maven": {
+    "suites": [
+      {
+        "name": "com.mss301.payment.PaymentTransactionTest",
+        "tests": "4",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.mss301.order.saga.OrderSagaOrchestratorTest",
+        "tests": "7",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      },
+      {
+        "name": "com.mss301.inventory.InventoryTransactionTest",
+        "tests": "3",
+        "failures": "0",
+        "errors": "0",
+        "skipped": "0"
+      }
+    ],
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "postmanDesktop": {
+    "requests": 64,
+    "tests": 128,
+    "errors": 0,
+    "iterations": 1,
+    "evidence": "postman-runner.jpg",
+    "environment": "collection variables (No Environment)"
+  }
+}

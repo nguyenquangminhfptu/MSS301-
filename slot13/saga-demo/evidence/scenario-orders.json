@@ -1,0 +1,93 @@
+[
+  {
+    "scenario": "Place order kb1",
+    "order": {
+      "amount": 2000.0,
+      "customerId": "C1",
+      "failureReason": null,
+      "id": 1,
+      "productId": "P1",
+      "quantity": 2,
+      "sagaStatus": "COMPLETED",
+      "status": "CONFIRMED"
+    }
+  },
+  {
+    "scenario": "Place order kb2",
+    "order": {
+      "amount": 1000.0,
+      "customerId": "C2",
+      "failureReason": "402 - Số dư không đủ: còn 100.00, cần 1000",
+      "id": 2,
+      "productId": "P1",
+      "quantity": 1,
+      "sagaStatus": "COMPENSATED",
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "scenario": "Place order kb3",
+    "order": {
+      "amount": 2000.0,
+      "customerId": "C1",
+      "failureReason": "409 - Không đủ hàng: còn 5, cần 100",
+      "id": 3,
+      "productId": "P2",
+      "quantity": 100,
+      "sagaStatus": "COMPENSATED",
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "scenario": "Place order kb4",
+    "order": {
+      "amount": 10.0,
+      "customerId": "C1",
+      "failureReason": "404 - Không tìm thấy sản phẩm P9",
+      "id": 4,
+      "productId": "P9",
+      "quantity": 1,
+      "sagaStatus": "COMPENSATED",
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "scenario": "Place order kb5",
+    "order": {
+      "amount": 20.0,
+      "customerId": "C9",
+      "failureReason": "404 - Không tìm thấy ví của C9",
+      "id": 5,
+      "productId": "P2",
+      "quantity": 1,
+      "sagaStatus": "COMPENSATED",
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "scenario": "Place order kb6",
+    "order": {
+      "amount": 20.0,
+      "customerId": "C1",
+      "failureReason": "Service không phản hồi: I/O error on POST request for \"http://payment-service:8083/api/payments/pay\": null",
+      "id": 7,
+      "productId": "P2",
+      "quantity": 1,
+      "sagaStatus": "COMPENSATED",
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "scenario": "Place order kb8",
+    "order": {
+      "amount": 20.0,
+      "customerId": "C1",
+      "failureReason": "Service không phản hồi: I/O error on POST request for \"http://payment-service:8083/api/payments/pay\": null",
+      "id": 8,
+      "productId": "P2",
+      "quantity": 1,
+      "sagaStatus": "COMPENSATING",
+      "status": "PENDING"
+    }
+  }
+]

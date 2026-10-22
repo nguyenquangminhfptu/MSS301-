@@ -1,0 +1,9 @@
+{
+  "name": "mss301-slot13-saga-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "newman run postman/Saga.postman_collection.json -e postman/Saga-local.postman_environment.json --reporters cli,json,junit --reporter-json-export evidence/newman.json --reporter-junit-export evidence/newman.xml"
+  },
+  "devDependencies": { "newman": "6.2.1" }
+}
