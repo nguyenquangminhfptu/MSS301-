@@ -1,0 +1,15 @@
+MSS301 Slot 16 verification
+Date: 2026-10-29T22:23:17+07:00
+Runtime: JDK 21; Spring Boot 4.1.0; Spring Cloud 2025.1.2
+Command: ./scripts/build.sh (mvn -B -ntp clean verify)
+
+fu.de190270.gateway.GatewayTests: 4 tests, 0 failures, 0 errors
+fu.de190270.post.PostApiTests: 19 tests, 0 failures, 0 errors
+fu.de190270.user.UserApiTests: 19 tests, 0 failures, 0 errors
+
+Total automated API/gateway tests: 42 passed
+Build: SUCCESS
+Live SQL Server 2022 + User Service + Post Service + Gateway: 28 checks passed
+Live checks include Unicode, SQL DATE persistence, OpenFeign, recalculation, partial update rollback, HTTP status codes, Swagger and CORS.
+Production and test JPA DDL setting: none; schema creation uses explicit SQL.
+SQL Server inspected: users/posts column types, 9 CHECK constraints, 1 FK, 2 PKs and 1 unique constraint match the supplied scripts.
