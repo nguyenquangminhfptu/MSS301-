@@ -1,0 +1,8 @@
+# Commit message template: git config commit.template .gitmessage
+# <type>(<scope>): <subject> (<= 72 characters)
+# Types: feat | fix | refactor | build | test | docs | chore | perf | style | ci
+# Scopes: ms-account | ms-brand | ms-watch | gateway | docker | postman | config
+# Explain why in the body; wrap near 72 characters.
+# Footer examples:
+# Refs: TODO-1.1
+# BREAKING CHANGE: <description>
