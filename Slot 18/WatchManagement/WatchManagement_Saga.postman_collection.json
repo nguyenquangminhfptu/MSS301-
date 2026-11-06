@@ -1,0 +1,1732 @@
+{
+  "info": {
+    "name": "WatchManagement Saga Proof",
+    "description": "53 ordered requests covering JWT authorization, validation, all Saga paths, compensation and monitoring. Import, set baseUrl, then run top to bottom with SQL Server and all services active.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "00 Auth",
+      "item": [
+        {
+          "name": "Admin login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"adminsys\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); const d=pm.response.json().data; pm.collectionVariables.set('adminToken',d.accessToken); pm.collectionVariables.set('refreshToken',d.refreshToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"staff02\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.collectionVariables.set('staffToken',pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"member01\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.collectionVariables.set('memberToken',pm.response.json().data.accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inactive member cannot log in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"member02\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Inactive staff cannot log in",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"staff01\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wrong password rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"adminsys\", \"password\": \"wrong\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown account rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"missing-user\", \"password\": \"@1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh token accepted",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Access token rejected as refresh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"{{adminToken}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Malformed refresh token rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"not.a.jwt\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 Authorization",
+      "item": [
+        {
+          "name": "Watch list public",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data).to.be.an('array');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create without token rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update without token rejected",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/1"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete without token rejected",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/1"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Client cannot spoof admin header",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-User-Role",
+                "value": "1"
+              },
+              {
+                "key": "X-User-Id",
+                "value": "1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/1"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff cannot create watch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff cannot update watch",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/1"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff cannot delete watch",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/1"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Brand endpoint requires token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/brands"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(401);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Staff cannot inspect saga list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{staffToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sagas"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(403);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Validation",
+      "item": [
+        {
+          "name": "Short name rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Short\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"100m\", \"price\": 150, \"releaseDate\": \"{{today}}\", \"stock\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing name rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"100m\", \"price\": 150, \"releaseDate\": \"{{today}}\", \"stock\": 2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing category rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": null, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing brand rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": null, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing case material rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing strap rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing water material rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Price below minimum rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 99, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing price rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Old release date rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"2000-01-01\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Missing release date rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Negative stock rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": -1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unknown category rejected",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Valid Demonstration Watch\", \"categoryId\": 999, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400);"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Create Saga",
+      "item": [
+        {
+          "name": "Create watch success",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Create Success Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(201); const d=pm.response.json().data; pm.collectionVariables.set('createdWatchId',d.watchId); pm.collectionVariables.set('createdSagaId',pm.response.headers.get('X-Saga-Id'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Invalid brand compensates insert",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Invalid Brand Watch\", \"categoryId\": 1, \"brandId\": 999, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Injected failure after step one compensates",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "1"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Failure One Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(500); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Injected failure after step two compensates LIFO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "2"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Failure Two Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(500); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify successful watch appears first",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data[0].watchId).to.eql(pm.collectionVariables.get('createdWatchId'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verify successful brand assignment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/brands/1/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.watchIds).to.include(Number(pm.collectionVariables.get('createdWatchId')));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 Update Saga",
+      "item": [
+        {
+          "name": "Update watch success",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Updated Success Watch\", \"categoryId\": 1, \"brandId\": 2, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.collectionVariables.set('updatedSagaId',pm.response.headers.get('X-Saga-Id'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update missing watch returns 404",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/999999"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Missing Update Watch\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(404);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update to unknown brand compensates",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Update Bad Brand Watch\", \"categoryId\": 1, \"brandId\": 999, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(400); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Injected update failure after local update restores snapshot",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "1"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Update Failure One\", \"categoryId\": 1, \"brandId\": 1, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(500); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Injected update failure after brand change compensates LIFO",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "2"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Saga Update Failure Two\", \"categoryId\": 1, \"brandId\": 3, \"caseMaterial\": \"Steel\", \"strapMaterial\": \"Steel\", \"waterpMaterial\": \"200 meters\", \"price\": 250, \"releaseDate\": \"{{today}}\", \"stock\": 10}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(500); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Brand rollback restored to original brand",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/brands/2/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.watchIds).to.include(Number(pm.collectionVariables.get('createdWatchId')));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 Delete Saga",
+      "item": [
+        {
+          "name": "Delete missing watch returns 404",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/999999"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(404);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete after unassign failure compensates assignment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "1"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(500); pm.expect(pm.response.json().data.sagaStatus).to.eql('COMPENSATED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Watch remains assigned after delete compensation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/brands/2/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.watchIds).to.include(Number(pm.collectionVariables.get('createdWatchId')));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Fault after delete pivot is skipped",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "X-Saga-Fail-After-Step",
+                "value": "2"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/watches/{{createdWatchId}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.collectionVariables.set('deletedSagaId',pm.response.headers.get('X-Saga-Id'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 Monitoring",
+      "item": [
+        {
+          "name": "Admin can list sagas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sagas"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create saga can be inspected",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sagas/{{createdSagaId}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.status).to.eql('COMPLETED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete saga pivot completed",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sagas/{{deletedSagaId}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.status).to.eql('COMPLETED');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Brand watch list shows removed watch",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/brands/2/watches"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.expect(pm.response.code).to.eql(200); pm.expect(pm.response.json().data.watchIds).not.to.include(Number(pm.collectionVariables.get('createdWatchId')));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "staffToken",
+      "value": ""
+    },
+    {
+      "key": "memberToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "today",
+      "value": ""
+    },
+    {
+      "key": "createdWatchId",
+      "value": ""
+    },
+    {
+      "key": "createdSagaId",
+      "value": ""
+    },
+    {
+      "key": "updatedSagaId",
+      "value": ""
+    },
+    {
+      "key": "deletedSagaId",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const d = new Date(); pm.collectionVariables.set('today', new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10));"
+        ]
+      }
+    }
+  ]
+}
