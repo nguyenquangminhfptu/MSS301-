@@ -58,6 +58,10 @@ public class AuthService {
         StoreAccount account = accountRepository.findById(Integer.parseInt(subject))
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Account not found"));
 
+        if (!account.getIsActive()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Account is inactive");
+        }
+
         String newAccessToken = jwtService.generateAccessToken(subject, account.getRole());
         String newRefreshToken = jwtService.generateRefreshToken(subject);
 
